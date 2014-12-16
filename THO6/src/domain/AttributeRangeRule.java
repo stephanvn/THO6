@@ -6,7 +6,6 @@ public class AttributeRangeRule extends GenerateCodeChain {
 
 	@Override
 	public void setNextChain(GenerateCodeChain nextChain) {
-		// TODO Auto-generated method stub
 		nextInChain = nextChain;
 	}
 
