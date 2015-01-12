@@ -1,7 +1,7 @@
 package domain;
 
 public class Column {
-	
+	//
 	private String name;
 	private String code;
 	
