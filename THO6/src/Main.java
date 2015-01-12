@@ -20,6 +20,7 @@ public class Main {
 		Value v1 = new Value("1"); b1.addValue(v1);
 		Value v2 = new Value("2"); b1.addValue(v2);
 		
+		
 		brc.addBusinessRule(b1);
 		
 		BusinessRule b2 = new BusinessRule("BRG_VBMG_PRT_CNS_ARNG_02");
