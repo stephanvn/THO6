@@ -5,15 +5,12 @@ public class BusinessRuleType {
 	private String name;
 	private String code;
 	private String description;
-	private String templateCode;
 	
-	public BusinessRuleType(String n,String c,String d,String t) {
+	public BusinessRuleType(String n, String d) {
 		name = n;
-		code = c;
 		description = d;
-		templateCode = t;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -23,6 +20,9 @@ public class BusinessRuleType {
 	}
 
 	public String getCode() {
+		if(code == null){
+			code = name.substring(0, Math.min(name.length(), 4)).toUpperCase();
+		}
 		return code;
 	}
 
@@ -37,15 +37,5 @@ public class BusinessRuleType {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public String getTemplateCode() {
-		return templateCode;
-	}
-
-	public void setTemplateCode(String templateCode) {
-		this.templateCode = templateCode;
-	}
-	
-	
 
 }

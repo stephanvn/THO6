@@ -9,7 +9,6 @@ import domain.BusinessRuleType;
 public class BusinessRuleControl {
 	
 	private ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
-	private ArrayList<GenerateCode> allGenerateCodes = new ArrayList<GenerateCode>();
 	private ArrayList<BusinessRuleType> containingTypes = new ArrayList<BusinessRuleType>();
 	private static BusinessRuleControl instance = null;
 	
@@ -59,18 +58,6 @@ public class BusinessRuleControl {
 		}
 		return array;
 	}
-
-	public ArrayList<GenerateCode> getTheGenerateCodes() {
-		return allGenerateCodes;
-	}
-
-	public void setTheGenerateCodes(ArrayList<GenerateCode> theGenerateCodes) {
-		this.allGenerateCodes = theGenerateCodes;
-	}
-	
-	public void addGenerateCode(GenerateCode gc) {
-		allGenerateCodes.add(gc);
-	}
 	
 	public BusinessRule searchBusinessRule(String s) {
 		BusinessRule b = null;
@@ -95,8 +82,7 @@ public class BusinessRuleControl {
 	public void generate(ArrayList<String> list,File file) {
 		for(String s : list) {
 			BusinessRule b = searchBusinessRule(s);
-			GenerateCode gc = new GenerateCode(b,file);
-			allGenerateCodes.add(gc);
+			b.generateCode();
 		}
 	}
 	

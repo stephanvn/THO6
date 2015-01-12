@@ -3,6 +3,7 @@ package domain;
 public class BRGUser {
 	
 	private String name;
+	private String code;
 	
 	public BRGUser(String n) {
 		name = n;
@@ -16,6 +17,11 @@ public class BRGUser {
 		this.name = name;
 	}
 	
-	
+	public String getCode(){
+		if(code == null){
+			code = name.substring(0, Math.min(name.length(), 4)).toUpperCase();
+		}
+		return code;
+	}
 
 }

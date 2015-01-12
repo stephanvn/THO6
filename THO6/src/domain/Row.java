@@ -1,6 +1,6 @@
 package domain;
 
-public class Row extends TargetEntity {
+public class Row{
 	
 	private int number;
 	

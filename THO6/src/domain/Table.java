@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Table {
 	
 	private String name;
-	private TargetEntity theTargetEntity;
 	private ArrayList<Column> allColumns;
 	
 	public Table(String n) {
@@ -21,14 +20,6 @@ public class Table {
 		this.name = name;
 	}
 
-	public TargetEntity getTheTargetEntity() {
-		return theTargetEntity;
-	}
-
-	public void setTheTargetEntity(TargetEntity theTargetEntity) {
-		this.theTargetEntity = theTargetEntity;
-	}
-
 	public ArrayList<Column> getAllColumns() {
 		return allColumns;
 	}
@@ -39,6 +30,10 @@ public class Table {
 	
 	public void addColumn(Column c) {
 		allColumns.add(c);
+	}
+	
+	public String getTargetColumn(){
+		return allColumns.get(0).getName();
 	}
 	
 	

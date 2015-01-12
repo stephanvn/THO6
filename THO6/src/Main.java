@@ -1,8 +1,12 @@
 import userinterface.MainFrame;
 import application_logic.BusinessRuleControl;
+import domain.BRGUser;
 import domain.BusinessRule;
 import domain.BusinessRuleType;
 import domain.Column;
+import domain.ErrorMessage;
+import domain.Event;
+import domain.Operator;
 import domain.Table;
 import domain.Value;
 
@@ -12,18 +16,31 @@ public class Main {
 	public static void main(String[] args) {
 		BusinessRuleControl brc = BusinessRuleControl.getInstance();
 		
-		BusinessRule b1 = new BusinessRule("BRG_VBMG_PRT_CNS_ARNG_01");
+		BusinessRuleType t1 = new BusinessRuleType("Attribute Range Rule","Description"); 
+		//BusinessRuleType t2 = new BusinessRuleType("Attribute Compare Rule","Description");
 		
-		BusinessRuleType t1 = new BusinessRuleType("Attribute Range Rule","ARNG","The attribute value should or should not correspond to a value from a series of","xxx"); b1.setType(t1);	
-		Table tab1 = new Table("Product"); 
-		Column c1 = new Column("prijs"); tab1.addColumn(c1); b1.addTable(tab1);
-		Value v1 = new Value("1"); b1.addValue(v1);
-		Value v2 = new Value("2"); b1.addValue(v2);
-		
-		
+		BusinessRule b1 = new BusinessRule();
+		b1.setType(t1);
+		Operator o1 = new Operator("<");
+		b1.addOperator(o1);
+		ErrorMessage e1 = new ErrorMessage("0x0000008F","Errormessage: Value must be below 1");
+		b1.addErrorMessage(e1);
+		Table tab1 = new Table("Table_products");
+		Column com1 = new Column("Column_price");
+		tab1.addColumn(com1);
+		b1.addTable(tab1);
+		Value v1 = new Value("1");
+		Value v2 = new Value("2");
+		b1.addValue(v1);
+		b1.addValue(v2);
+		BRGUser bu = new BRGUser("testtest");
+		b1.setTheBRGUser(bu);
+		Event e = new Event("update");
+		b1.addEvent(e);
 		brc.addBusinessRule(b1);
+		b1.generateCode();
 		
-		BusinessRule b2 = new BusinessRule("BRG_VBMG_PRT_CNS_ARNG_02");
+		/*BusinessRule b2 = new BusinessRule("BRG_VBMG_PRT_CNS_ARNG_02");
 		
 		BusinessRuleType t2 = new BusinessRuleType("Attribute Range Rule","ARNG","The attribute value should or should not correspond to a value from a series of","xxx"); b2.setType(t2);	
 		Table tab2 = new Table("Koek"); 
@@ -71,7 +88,7 @@ public class Main {
 		Value v11 = new Value("1"); b6.addValue(v11);
 		Value v12 = new Value("2"); b6.addValue(v12);
 		
-		brc.addBusinessRule(b6);
+		brc.addBusinessRule(b6);*/
 
 		new MainFrame(brc);
 	}
