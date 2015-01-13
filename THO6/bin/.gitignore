@@ -1,2 +1,9 @@
+<<<<<<< HEAD
 /domain/
 /application_logic/
+=======
+/Main.class
+/application_logic/
+/domain/
+/userinterface/
+>>>>>>> abf3919c8add9a08c8efbafe4c8ea7f11e281f3c
