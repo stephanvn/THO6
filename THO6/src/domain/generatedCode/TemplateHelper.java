@@ -1,7 +1,6 @@
 package domain.generatedCode;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,23 +19,18 @@ public class TemplateHelper {
 	}
 
 	public String getDefaultCode() {
-			try {
-				Path pathAbsolute = Paths.get("/var/data/stuff/xyz.dat");
-				Path pathBase = Paths.get("/var/data");
-				Path pathRelative = pathBase.relativize(pathAbsolute);
-				
-				defaultTemplate = new ST(new String(Files.readAllBytes(Paths
-						.get(TemplateHelper.class
-								.getResource().toURI()))),
-						'$', '$');
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			Path pathAbsolute = Paths
+					.get("/THO6/templates/defaultTemplate.txt");
+			Path pathBase = Paths.get("/THO6");
+			Path pathRelative = pathBase.relativize(pathAbsolute);
 
+			defaultTemplate = new ST(new String(Files.readAllBytes(Paths
+					.get(pathRelative.toUri()))), '$', '$');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		addAttributeToTemplate(defaultTemplate, "brName",
 				theBusinessRule.getName());
 		addAttributeToTemplate(defaultTemplate, "targetTable",
@@ -44,25 +38,29 @@ public class TemplateHelper {
 		return defaultTemplate.render();
 	}
 
-	public String getAttributeRangeRuleTemplate(){
+	public String getAttributeRangeRuleTemplate() {
+		Path pathAbsolute = Paths.get("/THO6/templates/attributeRangeRule.txt");
+		Path pathBase = Paths.get("/THO6");
+		Path pathRelative = pathBase.relativize(pathAbsolute);
+
 		try {
 			attributeRangeRule = new ST(new String(Files.readAllBytes(Paths
-					.get(TemplateHelper.class
-							.getResource("attributeRangeRule.txt").toURI()))),
-					'$', '$');
+					.get(pathRelative.toUri()))), '$', '$');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		addAttributeToTemplate(attributeRangeRule, "eventsStringAbb",theBusinessRule.getEventsStringAbb());
-		addAttributeToTemplate(attributeRangeRule, "column",theBusinessRule.getAllTables().get(0).getTargetColumn());
-		addAttributeToTemplate(attributeRangeRule, "operator",theBusinessRule.getAllOperators().get(0).getType());
-		addAttributeToTemplate(attributeRangeRule, "value",theBusinessRule.getAllValues().get(0).getComparable());
-		addAttributeToTemplate(attributeRangeRule, "errorMessage",theBusinessRule.getAllErrorMessages().get(0).getMessage());
+
+		addAttributeToTemplate(attributeRangeRule, "eventsStringAbb",
+				theBusinessRule.getEventsStringAbb());
+		addAttributeToTemplate(attributeRangeRule, "column", theBusinessRule
+				.getAllTables().get(0).getTargetColumn());
+		addAttributeToTemplate(attributeRangeRule, "operator", theBusinessRule
+				.getAllOperators().get(0).getType());
+		addAttributeToTemplate(attributeRangeRule, "value", theBusinessRule
+				.getAllValues().get(0).getComparable());
+		addAttributeToTemplate(attributeRangeRule, "errorMessage",
+				theBusinessRule.getAllErrorMessages().get(0).getMessage());
 		return attributeRangeRule.render();
 	}
 

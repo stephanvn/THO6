@@ -1,4 +1,3 @@
-import userinterface.MainFrame;
 import application_logic.BusinessRuleControl;
 import domain.constraints.Event;
 import domain.constraints.Operator;
@@ -90,7 +89,7 @@ public class Main {
 		
 		brc.addBusinessRule(b6);*/
 
-		new MainFrame(brc);
+		//new MainFrame(brc);
 	}
 
 }
