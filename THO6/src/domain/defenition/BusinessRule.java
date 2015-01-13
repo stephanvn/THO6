@@ -23,10 +23,6 @@ public class BusinessRule {
 		allErrorMessages = new ArrayList<ErrorMessage>();
 		allTables = new ArrayList<Table>();
 	}
-	
-	public ConstraintsFacade getConstrainsFacade() {
-		return constraintsFacade;
-	}
 
 	public String getName() {
 		if (name == null) {
