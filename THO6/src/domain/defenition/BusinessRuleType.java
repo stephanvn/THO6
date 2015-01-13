@@ -11,6 +11,12 @@ public class BusinessRuleType {
 		description = d;
 	}
 	
+	public BusinessRuleType(String n, String d, String c) {
+		name = n;
+		description = d;
+		code = c;
+	}
+	
 	public String getName() {
 		return name;
 	}

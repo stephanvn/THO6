@@ -19,7 +19,7 @@ public class Column {
 	
 	public String getCode(){
 		if(code == null){
-			code = name.substring(0, Math.min(name.length(), 4)).toUpperCase();
+			code = name.substring(0, Math.min(name.length(), 3)).toUpperCase();
 		}
 		return code;
 	}

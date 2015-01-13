@@ -94,8 +94,10 @@ public class BusinessRule {
 
 	public void generateName() {
 		name = "BRG_" + this.theBRGUser.getCode() + "_"
-				+ this.getAllTables().get(0).getAllColumns().get(0).getCode()
-				+ "_" + this.getType().getCode();
+				+ this.getAllTables().get(0).getAllColumns().get(0).getCode() + "_"
+				+ "CNS_"
+				+ this.getType().getCode() + "_"
+				+ "001";
 	}
 
 	public void generateCode() {
