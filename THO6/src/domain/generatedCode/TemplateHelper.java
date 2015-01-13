@@ -52,13 +52,13 @@ public class TemplateHelper {
 		}
 
 		addAttributeToTemplate(attributeRangeRule, "eventsStringAbb",
-				theBusinessRule.getEventsStringAbb());
+				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
 		addAttributeToTemplate(attributeRangeRule, "column", theBusinessRule
 				.getAllTables().get(0).getTargetColumn());
 		addAttributeToTemplate(attributeRangeRule, "operator", theBusinessRule
-				.getAllOperators().get(0).getType());
+				.getConstrainsFacade().getAllOperators().get(0).getType());
 		addAttributeToTemplate(attributeRangeRule, "value", theBusinessRule
-				.getAllValues().get(0).getComparable());
+				.getConstrainsFacade().getAllValues().get(0).getComparable());
 		addAttributeToTemplate(attributeRangeRule, "errorMessage",
 				theBusinessRule.getAllErrorMessages().get(0).getMessage());
 		return attributeRangeRule.render();

@@ -21,7 +21,7 @@ public class Main {
 		BusinessRule b1 = new BusinessRule();
 		b1.setType(t1);
 		Operator o1 = new Operator("<");
-		b1.addOperator(o1);
+		b1.getConstrainsFacade().addOperator(o1);
 		ErrorMessage e1 = new ErrorMessage("0x0000008F","Errormessage: Value must be below 1");
 		b1.addErrorMessage(e1);
 		Table tab1 = new Table("Table_products");
@@ -30,12 +30,12 @@ public class Main {
 		b1.addTable(tab1);
 		Value v1 = new Value("1");
 		Value v2 = new Value("2");
-		b1.addValue(v1);
-		b1.addValue(v2);
+		b1.getConstrainsFacade().addValue(v1);
+		b1.getConstrainsFacade().addValue(v2);
 		BRGUser bu = new BRGUser("testtest");
 		b1.setTheBRGUser(bu);
 		Event e = new Event("update");
-		b1.addEvent(e);
+		b1.getConstrainsFacade().addEvent(e);		
 		brc.addBusinessRule(b1);
 		b1.generateCode();
 		
