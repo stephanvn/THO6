@@ -7,4 +7,8 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	public BusinessRuleDAOOracleImpl() {
 		brDTO = new BusinessRuleDTO();
 	}
+	
+	public Object read() {
+		return null;
+	}
 }

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import domain.defenition.BusinessRule;
 import domain.defenition.BusinessRuleType;
+import domain.defenition.DAOFactorySetup;
 
 public class BusinessRuleControl {
 	
 	private ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 	private ArrayList<BusinessRuleType> containingTypes = new ArrayList<BusinessRuleType>();
 	private static BusinessRuleControl instance = null;
+	private DAOFactorySetup DAOfactorySetup = DAOFactorySetup.getInstance();
 	
 	public static synchronized BusinessRuleControl getInstance(){
 		if (instance == null){

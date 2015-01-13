@@ -31,8 +31,6 @@ public class DAOFactoryOracle implements DAOFactory {
 			e.printStackTrace();
 		}
 		
-		loadDAOs();
-		
 		close();
 	}
 	
@@ -66,8 +64,17 @@ public class DAOFactoryOracle implements DAOFactory {
 		}		
 	}
 	
-	public void loadDAOs() {
-		BusinessRuleDAO brDAO = new BusinessRuleDAOOracleImpl();
+	public void chooseDAO(String type) {
+		switch(type) {
+		case "businessrule":
+			BusinessRuleDAO brDAO = new BusinessRuleDAOOracleImpl();
+			break;
+		case "table":
+			//
+			break;
+		default:
+			break;
+		}		
 	}
 
 }
