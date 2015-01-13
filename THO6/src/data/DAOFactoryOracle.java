@@ -31,6 +31,8 @@ public class DAOFactoryOracle implements DAOFactory {
 			e.printStackTrace();
 		}
 		
+		loadDAOs();
+		
 		close();
 	}
 	
@@ -62,6 +64,10 @@ public class DAOFactoryOracle implements DAOFactory {
 		catch(SQLException e) {
 			System.out.println("Can't close connection!");
 		}		
+	}
+	
+	public void loadDAOs() {
+		BusinessRuleDAO brDAO = new BusinessRuleDAOOracleImpl();
 	}
 
 }

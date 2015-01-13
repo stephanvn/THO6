@@ -14,6 +14,7 @@ public class BusinessRule {
 	private BusinessRuleType type;
 	private BRGUser theBRGUser;
 	private ConstraintsFacade constraintsFacade;
+	private DAOFactorySetup DAOfactory;
 
 	private ArrayList<ErrorMessage> allErrorMessages;
 	private ArrayList<Table> allTables;
@@ -21,6 +22,7 @@ public class BusinessRule {
 	public BusinessRule() {
 		constraintsFacade = new ConstraintsFacade(name);
 		allErrorMessages = new ArrayList<ErrorMessage>();
+		DAOfactory = DAOFactorySetup.getInstance();
 		allTables = new ArrayList<Table>();
 	}
 	
