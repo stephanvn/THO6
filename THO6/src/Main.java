@@ -1,14 +1,14 @@
 import userinterface.MainFrame;
 import application_logic.BusinessRuleControl;
-import domain.BRGUser;
-import domain.BusinessRule;
-import domain.BusinessRuleType;
-import domain.Column;
-import domain.ErrorMessage;
-import domain.Event;
-import domain.Operator;
-import domain.Table;
-import domain.Value;
+import domain.constraints.Event;
+import domain.constraints.Operator;
+import domain.constraints.Value;
+import domain.defenition.BusinessRule;
+import domain.defenition.BusinessRuleType;
+import domain.errorHandling.ErrorMessage;
+import domain.target.Column;
+import domain.target.Table;
+import domain.userManagement.BRGUser;
 
 
 public class Main {

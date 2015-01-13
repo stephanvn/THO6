@@ -3,8 +3,8 @@ package application_logic;
 import java.io.File;
 import java.util.ArrayList;
 
-import domain.BusinessRule;
-import domain.BusinessRuleType;
+import domain.defenition.BusinessRule;
+import domain.defenition.BusinessRuleType;
 
 public class BusinessRuleControl {
 	

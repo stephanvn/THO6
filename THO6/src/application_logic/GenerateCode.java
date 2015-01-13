@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import domain.BusinessRule;
+import domain.defenition.BusinessRule;
 
 public class GenerateCode {
 	
