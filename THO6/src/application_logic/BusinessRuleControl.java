@@ -3,6 +3,7 @@ package application_logic;
 import java.io.File;
 import java.util.ArrayList;
 
+import data.BusinessRuleDAO;
 import data.BusinessRuleDAOOracleImpl;
 import domain.defenition.BusinessRule;
 import domain.defenition.BusinessRuleType;
@@ -12,7 +13,6 @@ public class BusinessRuleControl {
 	
 	private ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 	private ArrayList<BusinessRuleType> containingTypes = new ArrayList<BusinessRuleType>();
-	private String[][] allDBBusinessRuleNames;
 	private static BusinessRuleControl instance = null;
 	private DAOFactorySetup DAOFactorySetupRef = DAOFactorySetup.getInstance();
 	
@@ -23,32 +23,6 @@ public class BusinessRuleControl {
 		return instance;
 	}
 	
-	public BusinessRuleControl() {
-		DAOFactorySetupRef.chooseFactory("oracle");
-		getAllDBBusinessRuleNames();
-	}
-	
-	public String[][] getAllDBBusinessRuleNames() {
-		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOFactorySetupRef.getFactory().chooseDAO("businessRule");
-		
-		String[][] names = o.selectNames();
-		for(int i = 0;i<names.length;i++) {
-			if(names[i][0]==null) {
-				break;
-			}
-			String name = "BRG_";
-			for(int j = 0;j<names[i].length;j++) {
-				name += names[i][j] + "_";
-				if(j==1) {
-					name += "CNS_";
-				}
-			}
-			name += "001";
-			System.out.println(name);			
-		}	
-		return names;
-	}
-
 	public ArrayList<BusinessRule> getAllBusinessRules() {
 		return allBusinessRules;
 	}
@@ -125,6 +99,9 @@ public class BusinessRuleControl {
 		}
 		return array;
 	}
-
 	
+	public void loadData(String databaseType){
+		DAOFactorySetupRef.chooseFactory(databaseType);
+		setAllBusinessRules(DAOFactorySetupRef.getAllBusinessRulesFromDB());
+	}	
 }

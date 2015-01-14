@@ -46,7 +46,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
+		factory.closeConnection();
 		return allBusinessRuleNames;
 	}
 }
