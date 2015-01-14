@@ -22,7 +22,7 @@ public class Main {
 		b1.setType(t1);
 		Operator o1 = new Operator("<");
 		b1.getConstrainsFacade().addOperator(o1);
-		ErrorMessage e1 = new ErrorMessage("0x0000008F","Errormessage: Value must be below 1");
+		ErrorMessage e1 = new ErrorMessage("0x0000008F","Errormessage: Value must be between 1 and 2");
 		b1.addErrorMessage(e1);
 		Table tab1 = new Table("Table_products");
 		Column com1 = new Column("Column_price");

@@ -11,7 +11,7 @@ import domain.defenition.BusinessRule;
 
 public class TemplateHelper {
 
-	private ST defaultTemplate, attributeRangeRule;
+	private ST defaultTemplate, attributeRangeRule, attributeCompareRule;
 	private BusinessRule theBusinessRule;
 
 	public TemplateHelper(BusinessRule theBusinessRule) {
@@ -55,13 +55,39 @@ public class TemplateHelper {
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
 		addAttributeToTemplate(attributeRangeRule, "column", theBusinessRule
 				.getAllTables().get(0).getTargetColumn());
-		addAttributeToTemplate(attributeRangeRule, "operator", theBusinessRule
-				.getConstrainsFacade().getAllOperators().get(0).getType());
 		addAttributeToTemplate(attributeRangeRule, "value", theBusinessRule
 				.getConstrainsFacade().getAllValues().get(0).getComparable());
+		addAttributeToTemplate(attributeRangeRule, "value2", theBusinessRule
+				.getConstrainsFacade().getAllValues().get(1).getComparable());
 		addAttributeToTemplate(attributeRangeRule, "errorMessage",
 				theBusinessRule.getAllErrorMessages().get(0).getMessage());
 		return attributeRangeRule.render();
+	}
+	
+	public String getAttributeCompareRuleTemplate(){
+		Path pathAbsolute = Paths.get("/THO6/templates/attributeCompareRule.txt");
+		Path pathBase = Paths.get("/THO6");
+		Path pathRelative = pathBase.relativize(pathAbsolute);
+
+		try {
+			attributeRangeRule = new ST(new String(Files.readAllBytes(Paths
+					.get(pathRelative.toUri()))), '$', '$');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		addAttributeToTemplate(attributeRangeRule, "eventsStringAbb",
+				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
+		addAttributeToTemplate(attributeRangeRule, "column", theBusinessRule
+				.getAllTables().get(0).getTargetColumn());
+		addAttributeToTemplate(attributeRangeRule, "value", theBusinessRule
+				.getConstrainsFacade().getAllValues().get(0).getComparable());
+		addAttributeToTemplate(attributeRangeRule, "value2", theBusinessRule
+				.getConstrainsFacade().getAllValues().get(1).getComparable());
+		addAttributeToTemplate(attributeRangeRule, "errorMessage",
+				theBusinessRule.getAllErrorMessages().get(0).getMessage());
+		return attributeCompareRule.render();
 	}
 
 	public void addAttributeToTemplate(ST template, String attributeName,
