@@ -14,27 +14,10 @@ public class DAOFactoryOracle implements DAOFactory {
 	private String Password = "tho6_2014_2a_team4";
 
 	public DAOFactoryOracle() {
-		connect();			
-		
-		//Testing example		
-		try {
-			Statement stmt = connection.createStatement();
-			String sql = "SELECT table_name from all_tables where owner = 'THO6_2014_2A_TEAM4'";
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
-				String res = rs.getString("table_name");
-				System.out.println(res);
-			}
-			rs.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-		close();
+		getConnection();			
 	}
 	
-	public void connect() {
+	public Connection getConnection() {
 		try {
 			connection = DriverManager.getConnection(URL, Username, Password);
 		}
@@ -47,9 +30,10 @@ public class DAOFactoryOracle implements DAOFactory {
 		} else {
 			System.out.println("Failed to make connection with Oracle DB: " + Username + "!");
 		}
+		return connection;
 	}
 	
-	public void close() {
+	public void closeConnection() {
 		try {
 			connection.close();
 			
@@ -64,17 +48,19 @@ public class DAOFactoryOracle implements DAOFactory {
 		}		
 	}
 	
-	public void chooseDAO(String type) {
+	public Object chooseDAO(String type) {
+		Object o = null;
 		switch(type) {
-		case "businessrule":
-			BusinessRuleDAO brDAO = new BusinessRuleDAOOracleImpl();
+		case "businessRule":
+			BusinessRuleDAO brDAO = new BusinessRuleDAOOracleImpl(this);
+			o = brDAO;
 			break;
 		case "table":
-			//
 			break;
 		default:
 			break;
-		}		
+		}	
+		return o;
 	}
 
 }

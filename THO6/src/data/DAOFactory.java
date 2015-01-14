@@ -1,11 +1,13 @@
 package data;
 
+import java.sql.Connection;
+
 public interface DAOFactory {
 	
-	public void connect();
+	public Connection getConnection();
 	
-	public void close();
+	public void closeConnection();
 	
-	public void chooseDAO(String type);
+	public Object chooseDAO(String type);
 
 }

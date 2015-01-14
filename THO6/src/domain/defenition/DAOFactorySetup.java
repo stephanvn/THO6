@@ -15,8 +15,18 @@ public class DAOFactorySetup {
 		return instance;
 	}
 	
-	public DAOFactorySetup() {
-		factory = new DAOFactoryOracle();
+	public void chooseFactory(String type) {
+		switch(type) {
+		case "oracle":
+			factory = new DAOFactoryOracle();
+			break;
+		default:
+			break;
+		}		
+	}
+	
+	public DAOFactory getFactory() {
+		return factory;
 	}
 
 }

@@ -3,6 +3,7 @@ package application_logic;
 import java.io.File;
 import java.util.ArrayList;
 
+import data.BusinessRuleDAOOracleImpl;
 import domain.defenition.BusinessRule;
 import domain.defenition.BusinessRuleType;
 import domain.defenition.DAOFactorySetup;
@@ -11,6 +12,7 @@ public class BusinessRuleControl {
 	
 	private ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 	private ArrayList<BusinessRuleType> containingTypes = new ArrayList<BusinessRuleType>();
+	private String[][] allDBBusinessRuleNames;
 	private static BusinessRuleControl instance = null;
 	private DAOFactorySetup DAOfactorySetup = DAOFactorySetup.getInstance();
 	
@@ -19,6 +21,16 @@ public class BusinessRuleControl {
 			instance = new BusinessRuleControl();
 		}
 		return instance;
+	}
+	
+	public BusinessRuleControl() {
+		DAOfactorySetup.chooseFactory("oracle");		
+	}
+	
+	public String[][] getAllDBBusinessRuleNames() {
+		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOfactorySetup.getFactory().chooseDAO("businessRule");
+		System.out.println(o.selectNames());
+		return o.selectNames();
 	}
 
 	public ArrayList<BusinessRule> getAllBusinessRules() {
