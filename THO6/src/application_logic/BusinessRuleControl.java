@@ -14,7 +14,7 @@ public class BusinessRuleControl {
 	private ArrayList<BusinessRuleType> containingTypes = new ArrayList<BusinessRuleType>();
 	private String[][] allDBBusinessRuleNames;
 	private static BusinessRuleControl instance = null;
-	private DAOFactorySetup DAOfactorySetup = DAOFactorySetup.getInstance();
+	private DAOFactorySetup DAOFactorySetupRef = DAOFactorySetup.getInstance();
 	
 	public static synchronized BusinessRuleControl getInstance(){
 		if (instance == null){
@@ -24,11 +24,12 @@ public class BusinessRuleControl {
 	}
 	
 	public BusinessRuleControl() {
-		DAOfactorySetup.chooseFactory("oracle");		
+		DAOFactorySetupRef.chooseFactory("oracle");		
 	}
 	
 	public String[][] getAllDBBusinessRuleNames() {
-		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOfactorySetup.getFactory().chooseDAO("businessRule");
+		DAOFactorySetupRef.getFactory().get;
+		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOFactorySetupRef.getFactory().chooseDAO("businessRule");
 		System.out.println(o.selectNames());
 		return o.selectNames();
 	}
