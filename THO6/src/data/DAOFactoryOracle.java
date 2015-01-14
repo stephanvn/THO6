@@ -43,6 +43,8 @@ public class DAOFactoryOracle implements DAOFactory {
 		}		
 	}
 	
+	
+	
 	public Object chooseDAO(String type) {
 		Object o = null;
 		switch(type) {
