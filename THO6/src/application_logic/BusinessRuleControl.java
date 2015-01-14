@@ -36,10 +36,15 @@ public class BusinessRuleControl {
 			if(names[i][0]==null) {
 				break;
 			}
+			String name = "BRG_";
 			for(int j = 0;j<names[i].length;j++) {
-				System.out.println(names[i][j]);
+				name += names[i][j] + "_";
+				if(j==1) {
+					name += "CNS_";
+				}
 			}
-			System.out.println("----------------");			
+			name += "001";
+			System.out.println(name);			
 		}	
 		return names;
 	}
