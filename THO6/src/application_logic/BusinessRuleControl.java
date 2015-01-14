@@ -24,13 +24,12 @@ public class BusinessRuleControl {
 	}
 	
 	public BusinessRuleControl() {
-<<<<<<< HEAD
-		DAOfactorySetup.chooseFactory("oracle");
+		DAOFactorySetupRef.chooseFactory("oracle");
 		getAllDBBusinessRuleNames();
 	}
 	
 	public String[][] getAllDBBusinessRuleNames() {
-		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOfactorySetup.getFactory().chooseDAO("businessRule");
+		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOFactorySetupRef.getFactory().chooseDAO("businessRule");
 		
 		String[][] names = o.selectNames();
 		for(int i = 0;i<names.length;i++) {
@@ -40,18 +39,9 @@ public class BusinessRuleControl {
 			for(int j = 0;j<names[i].length;j++) {
 				System.out.println(names[i][j]);
 			}
-			System.out.println("----------------");
-		}
-=======
-		DAOFactorySetupRef.chooseFactory("oracle");		
-	}
-	
-	public String[][] getAllDBBusinessRuleNames() {
-		DAOFactorySetupRef.getFactory().get;
-		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOFactorySetupRef.getFactory().chooseDAO("businessRule");
-		System.out.println(o.selectNames());
->>>>>>> origin/master
-		return o.selectNames();
+			System.out.println("----------------");			
+		}	
+		return names;
 	}
 
 	public ArrayList<BusinessRule> getAllBusinessRules() {
