@@ -30,6 +30,6 @@ public class GeneratedCode {
 		if(typeSpecificCode != null){
 			GeneratedCode = defaultCode + typeSpecificCode;
 		}
-		//System.out.println(GeneratedCode);
+		System.out.println(GeneratedCode);
 	}
 }
