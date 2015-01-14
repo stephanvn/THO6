@@ -9,6 +9,7 @@ import domain.target.Table;
 import domain.userManagement.BRGUser;
 
 public class BusinessRule {
+	private int ID;
 	private String name;
 	private GeneratedCode theGeneratedCode;
 	private BusinessRuleType type;
@@ -19,7 +20,8 @@ public class BusinessRule {
 	private ArrayList<ErrorMessage> allErrorMessages;
 	private ArrayList<Table> allTables;
 
-	public BusinessRule() {
+	public BusinessRule(int ID) {
+		this.ID = ID;
 		constraintsFacade = new ConstraintsFacade(name);
 		allErrorMessages = new ArrayList<ErrorMessage>();		
 		allTables = new ArrayList<Table>();
