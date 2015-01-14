@@ -2,9 +2,7 @@ package data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DAOFactoryOracle implements DAOFactory {
 	
@@ -12,10 +10,6 @@ public class DAOFactoryOracle implements DAOFactory {
 	private String URL = "jdbc:oracle:thin:@ondora01.hu.nl:8521:cursus01";
 	private String Username = "tho6_2014_2a_team4";
 	private String Password = "tho6_2014_2a_team4";
-
-	public DAOFactoryOracle() {
-		getConnection();			
-	}
 	
 	public Connection getConnection() {
 		try {
@@ -23,6 +17,7 @@ public class DAOFactoryOracle implements DAOFactory {
 		}
 		catch(SQLException e) {
 			System.out.println("Connection failed!");
+			e.printStackTrace();
 		}
 		
 		if (connection != null) {

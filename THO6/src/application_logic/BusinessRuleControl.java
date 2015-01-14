@@ -24,12 +24,23 @@ public class BusinessRuleControl {
 	}
 	
 	public BusinessRuleControl() {
-		DAOfactorySetup.chooseFactory("oracle");		
+		DAOfactorySetup.chooseFactory("oracle");
+		getAllDBBusinessRuleNames();
 	}
 	
 	public String[][] getAllDBBusinessRuleNames() {
 		BusinessRuleDAOOracleImpl o = (BusinessRuleDAOOracleImpl) DAOfactorySetup.getFactory().chooseDAO("businessRule");
-		System.out.println(o.selectNames());
+		
+		String[][] names = o.selectNames();
+		for(int i = 0;i<names.length;i++) {
+			if(names[i][0]==null) {
+				break;
+			}
+			for(int j = 0;j<names[i].length;j++) {
+				System.out.println(names[i][j]);
+			}
+			System.out.println("----------------");
+		}
 		return o.selectNames();
 	}
 

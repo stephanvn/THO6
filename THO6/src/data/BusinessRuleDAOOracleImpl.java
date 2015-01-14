@@ -14,7 +14,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	}
 	
 	public String[][] selectNames() {
-		String[][] allBusinessRuleNames = new String[3][];
+		String[][] allBusinessRuleNames = new String[9999][4];
 		Connection connection = null;
 		
 		connection = factory.getConnection();
@@ -34,10 +34,10 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			
 			int counter = 0;
 			while(rs.next()){
-				allBusinessRuleNames[0][counter] = rs.getString(0);
-				allBusinessRuleNames[1][counter] = rs.getString(1);
-				allBusinessRuleNames[2][counter] = rs.getString(2);
-				allBusinessRuleNames[3][counter] = rs.getString(3);
+				allBusinessRuleNames[counter][0] = rs.getString(1);
+				allBusinessRuleNames[counter][1] = rs.getString(2);
+				allBusinessRuleNames[counter][2] = rs.getString(3);
+				allBusinessRuleNames[counter][3] = rs.getString(4);
 				counter++;
 			}
 			
