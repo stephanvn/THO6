@@ -1,6 +1,6 @@
 package domain.generatedCode;
 
-import domain.defenition.BusinessRule;
+import domain.definition.BusinessRule;
 
 
 

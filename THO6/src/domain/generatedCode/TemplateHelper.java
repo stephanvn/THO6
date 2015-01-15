@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 import org.stringtemplate.v4.ST;
 
-import domain.defenition.BusinessRule;
+import domain.definition.BusinessRule;
 
 public class TemplateHelper {
 

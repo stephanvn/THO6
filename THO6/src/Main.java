@@ -3,8 +3,8 @@ import application_logic.BusinessRuleControl;
 import domain.constraints.Event;
 import domain.constraints.Operator;
 import domain.constraints.Value;
-import domain.defenition.BusinessRule;
-import domain.defenition.BusinessRuleType;
+import domain.definition.BusinessRule;
+import domain.definition.BusinessRuleType;
 import domain.errorHandling.ErrorMessage;
 import domain.target.Column;
 import domain.target.Table;
@@ -15,11 +15,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		BusinessRuleControl brc = BusinessRuleControl.getInstance();
+		brc.fillDomainFromDatabase();
 		
-		BusinessRuleType t1 = new BusinessRuleType("Attribute Range Rule","Description"); 
+		//BusinessRuleType t1 = new BusinessRuleType("Attribute Range Rule","Description"); 
 		//BusinessRuleType t2 = new BusinessRuleType("Attribute Compare Rule","Description");
 		
-		BusinessRule b1 = new BusinessRule();
+	/*	BusinessRule b1 = new BusinessRule();
 		b1.setType(t1);
 		Operator o1 = new Operator("<");
 		b1.getConstrainsFacade().addOperator(o1);
@@ -38,7 +39,7 @@ public class Main {
 		Event e = new Event("update");
 		b1.getConstrainsFacade().addEvent(e);		
 		brc.addBusinessRule(b1);
-		b1.generateCode();
+		b1.generateCode();*/
 		
 		/*BusinessRule b2 = new BusinessRule("BRG_VBMG_PRT_CNS_ARNG_02");
 		

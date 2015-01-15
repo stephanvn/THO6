@@ -42,22 +42,12 @@ public class DAOFactoryOracle implements DAOFactory {
 			System.out.println("Can't close connection!");
 		}		
 	}
-	
-	
-	
-	public Object chooseDAO(String type) {
-		Object o = null;
-		switch(type) {
-		case "businessRule":
-			BusinessRuleDAO brDAO = new BusinessRuleDAOOracleImpl(this);
-			o = brDAO;
-			break;
-		case "table":
-			break;
-		default:
-			break;
-		}	
-		return o;
+
+	@Override
+	public void getAllBusinessRulesFromDatabase() {
+		// TODO Auto-generated method stub
+		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this);
+		bdao.fillDomain();		
 	}
 
 }

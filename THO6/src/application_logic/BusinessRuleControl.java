@@ -3,18 +3,16 @@ package application_logic;
 import java.io.File;
 import java.util.ArrayList;
 
-import data.BusinessRuleDAO;
-import data.BusinessRuleDAOOracleImpl;
-import domain.defenition.BusinessRule;
-import domain.defenition.BusinessRuleType;
-import domain.defenition.DAOFactorySetup;
+import domain.definition.BusinessRule;
+import domain.definition.BusinessRuleType;
+import domain.definition.DAOFactorySetup;
 
 public class BusinessRuleControl {
 	
 	private ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 	private ArrayList<BusinessRuleType> containingTypes = new ArrayList<BusinessRuleType>();
-	private static BusinessRuleControl instance = null;
 	private DAOFactorySetup DAOFactorySetupRef = DAOFactorySetup.getInstance();
+	private static BusinessRuleControl instance = null;
 	
 	public static synchronized BusinessRuleControl getInstance(){
 		if (instance == null){
@@ -26,7 +24,7 @@ public class BusinessRuleControl {
 	public ArrayList<BusinessRule> getAllBusinessRules() {
 		return allBusinessRules;
 	}
-
+	
 	public void setAllBusinessRules(ArrayList<BusinessRule> allBusinessRules) {
 		this.allBusinessRules = allBusinessRules;
 	}
@@ -73,6 +71,16 @@ public class BusinessRuleControl {
 		return b;
 	}
 	
+	public String[] getAllBusinessRulesTypeString() {
+		String[] array = new String[containingTypes.size()];
+		int counter = 0;
+		for(BusinessRuleType t : containingTypes) {
+			array[counter] = t.getName();
+			counter++;
+		}
+		return array;
+	}
+	
 	private boolean hasType(BusinessRuleType type) {
 		boolean b = false;
 		for(BusinessRuleType t : containingTypes) {
@@ -88,20 +96,10 @@ public class BusinessRuleControl {
 			BusinessRule b = searchBusinessRule(s);
 			b.generateCode();
 		}
-	}
-	
-	public String[] getAllBusinessRulesTypeString() {
-		String[] array = new String[containingTypes.size()];
-		int counter = 0;
-		for(BusinessRuleType t : containingTypes) {
-			array[counter] = t.getName();
-			counter++;
-		}
-		return array;
-	}
-	
-	public void loadData(String databaseType){
-		DAOFactorySetupRef.chooseFactory(databaseType);
-		setAllBusinessRules(DAOFactorySetupRef.getAllBusinessRulesFromDB());
 	}	
+	
+	public void fillDomainFromDatabase(){
+		//Replace "oracle" with other database, or make it an option on userInterface so user can choose
+		DAOFactorySetupRef.getAllBusinessRulesFromDatabase("oracle");
+	}
 }
