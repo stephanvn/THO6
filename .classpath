@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="THO6/src"/>
+	<classpathentry kind="lib" path="THO6/lib/forms-1.3.0.jar"/>
+	<classpathentry kind="lib" path="THO6/lib/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="THO6/lib/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="THO6/lib/ST-4.0.8.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="THO6/bin"/>
+</classpath>
