@@ -2,10 +2,16 @@ package domain.constraints;
 
 public class Event {
 	
+	private int ID;
 	private String type;
 	
-	public Event(String t) {
-		type = t;
+	public Event(int ID,String type) {
+		this.ID = ID;
+		this.type = type;
+	}
+	
+	public int getID() {
+		return ID;
 	}
 
 	public String getType() {

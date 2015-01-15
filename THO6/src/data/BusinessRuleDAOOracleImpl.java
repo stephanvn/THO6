@@ -97,13 +97,29 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				ConstraintsFacade cf = b.getConstrainsFacade();
 				
 				//Read Events
+				Statement stmt9 = connection.createStatement();	
+				String sql9 = "select eventid,type from event";				
+				ResultSet rs9 = stmt9.executeQuery(sql9);
+				
+				ArrayList<Event> allEvents = new ArrayList<Event>();
+				
+				while(rs9.next()) {
+					Event generalEvent = new Event(rs9.getInt(1),rs9.getString(2));
+					allEvents.add(generalEvent);
+				}
+				
+				rs9.close();
+				
 				Statement stmt5 = connection.createStatement();	
-				String sql5 = "select type from event where ruleid = "+ID;				
+				String sql5 = "select eventid from businessruleevent where ruleid = "+ID;				
 				ResultSet rs5 = stmt5.executeQuery(sql5);
 				
 				while(rs5.next()) {
-					Event event = new Event(rs5.getString(1));
-					cf.addEvent(event);
+					for(Event e : allEvents) {
+						if(e.getID()==rs5.getInt(1)) {
+							cf.addEvent(e);
+						}
+					}
 				}
 				
 				rs5.close();
