@@ -21,13 +21,17 @@ public class BusinessRule {
 
 	public BusinessRule(int ID) {
 		this.ID = ID;
-		constraintsFacade = new ConstraintsFacade(name);
+		constraintsFacade = new ConstraintsFacade();
 		allErrorMessages = new ArrayList<ErrorMessage>();		
 		allTables = new ArrayList<Table>();
 	}
 	
 	public ConstraintsFacade getConstrainsFacade() {
 		return constraintsFacade;
+	}
+	
+	public int getID() {
+		return ID;
 	}
 
 	public String getName() {
@@ -39,7 +43,6 @@ public class BusinessRule {
 
 	public void setName(String name) {
 		this.name = name;
-		constraintsFacade.setName(name);
 	}
 
 	public BusinessRuleType getType() {
@@ -106,6 +109,13 @@ public class BusinessRule {
 		GeneratedCode gc = new GeneratedCode();
 		gc.generateCode(this);
 		setTheGeneratedCode(gc);
+	}
+
+	@Override
+	public String toString() {
+		return "BusinessRule [ID=" + ID + ", name=" + name
+				+ ", type=" + type.getCode()
+				+ ", theBRGUser=" + theBRGUser.getName() + "]";
 	}
 
 }

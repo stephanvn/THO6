@@ -6,8 +6,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import domain.constraints.ConstraintsFacade;
+import domain.constraints.Event;
+import domain.constraints.Operator;
+import domain.constraints.Value;
 import domain.definition.BusinessRule;
 import domain.definition.BusinessRuleType;
+import domain.errorHandling.ErrorMessage;
+import domain.target.Column;
+import domain.target.Table;
+import domain.userManagement.BRGUser;
 
 public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	
@@ -16,67 +24,160 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	public BusinessRuleDAOOracleImpl(DAOFactoryOracle factory) {
 		this.factory = factory;
 	}
-	
-	public String[][] selectBusinessRules() {
-		String[][] allBusinessRuleNames = new String[9999][5];
-	
+
+	@Override
+	public void fillDomain() {
 		Connection connection = null;
 		
 		connection = factory.getConnection();
+		
+		ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 				
 		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = null;
-			String sql;
-			
+			Statement stmt1 = connection.createStatement();			
 			//Read Business Rule Names
-			sql = "select rule.ruleid,u.name,brt.code from brguser u, businessruletype brt, businessrule rule" +
+			 String sql1 = "select rule.ruleid,u.name,brt.name,brt.description,brt.code from brguser u, businessruletype brt, businessrule rule" +
 			" where u.userid = rule.userid" +
 			" and brt.typeid = rule.typeid";
 			
-			rs = stmt.executeQuery(sql);
-			
-			int counter = 0;
-			while(rs.next()){
-				BusinessRule br = new BusinessRule(rs.getInt(1));
-				counter++;
+			ResultSet rs1 = stmt1.executeQuery(sql1);
+
+			while(rs1.next()){
+				BRGUser user = new BRGUser(rs1.getString(2));
+				BusinessRuleType brt = new BusinessRuleType(rs1.getString(3),rs1.getString(4),rs1.getString(5));
+				BusinessRule br = new BusinessRule(rs1.getInt(1)); 
+				br.setTheBRGUser(user);
+				br.setType(brt);
+				allBusinessRules.add(br);
 			}
 			
-			rs.close();
-			
-			//Read BusinessRules
-			String sql1 = "select rule.ruleid,u.name,brt.code from brguser u, tab tab, col col, businessruletype brt, businessrule rule" +
-			" where u.userid = rule.userid" +
-			" and tab.ruleid = rule.ruleid" +
-			" and tab.position = 0" +
-			" and col.tableid = tab.tableid"+
-			" and col.position = 0" +
-			" and brt.typeid = rule.typeid";
-			
-			ResultSet rs1 = stmt.executeQuery(sql);
-			
-			int counter1 = 0;
-			while(rs.next()){
-				allBusinessRuleNames[counter][0] = rs.getInt(1)+"";
-				allBusinessRuleNames[counter][1] = rs.getString(2);
-				allBusinessRuleNames[counter][2] = rs.getString(3);
-				allBusinessRuleNames[counter][3] = rs.getString(4);
-				allBusinessRuleNames[counter][5] = rs.getString(6);
-				counter++;
+			rs1.close();
+
+			for(BusinessRule b : allBusinessRules) {
+				int ID = b.getID();
+				
+				//Read Tables
+				Statement stmt2 = connection.createStatement();	
+				String sql2 = "select tableid,name,position from tab where ruleid = "+ID;				
+				ResultSet rs2 = stmt2.executeQuery(sql2);
+				
+				while(rs2.next()){
+					Table tab = new Table(rs2.getInt(1),rs2.getString(2),rs2.getInt(3));
+					
+					//Read Columns
+					Statement stmt3 = connection.createStatement();	
+					String sql3 = "select name,position from col where tableid = "+tab.getID();	
+					ResultSet rs3 = stmt3.executeQuery(sql3);
+					
+					while(rs3.next()){
+						Column col = new Column(rs3.getString(1),rs3.getInt(2));
+						tab.addColumn(col);
+					}
+					
+					rs3.close();
+					
+					b.addTable(tab);
+				}
+				
+				rs2.close();
+				
+				//Read ErrorMessages
+				Statement stmt4 = connection.createStatement();	
+				String sql4 = "select code,message from errormessage where ruleid = "+ID;				
+				ResultSet rs4 = stmt4.executeQuery(sql4);
+				
+				while(rs4.next()){
+					ErrorMessage em = new ErrorMessage(rs4.getString(1),rs4.getString(2));
+					b.addErrorMessage(em);
+				}
+				
+				rs4.close();
+				
+				//Get ConstraintsFacade
+				ConstraintsFacade cf = b.getConstrainsFacade();
+				
+				//Read Events
+				Statement stmt5 = connection.createStatement();	
+				String sql5 = "select type from event where ruleid = "+ID;				
+				ResultSet rs5 = stmt5.executeQuery(sql5);
+				
+				while(rs5.next()) {
+					Event event = new Event(rs5.getString(1));
+					cf.addEvent(event);
+				}
+				
+				rs5.close();
+				
+				//Read Operators
+				Statement stmt6 = connection.createStatement();	
+				String sql6 = "select operatorid,type from operator";				
+				ResultSet rs6 = stmt6.executeQuery(sql6);
+				
+				ArrayList<Operator> allOperators = new ArrayList<Operator>();
+				
+				while(rs6.next()) {
+					Operator generalOperator = new Operator(rs6.getInt(1),rs6.getString(2));
+					allOperators.add(generalOperator);
+				}
+				
+				rs6.close();
+				
+				Statement stmt7 = connection.createStatement();	
+				String sql7 = "select operatorid from businessruleoperator where ruleid = " + ID;				
+				ResultSet rs7 = stmt7.executeQuery(sql7);
+				
+				while(rs7.next()) {
+					for(Operator o : allOperators) {
+						if(o.getID()==rs7.getInt(1)) {
+							cf.addOperator(o);
+						}
+					}
+					
+				}
+				
+				rs7.close();
+				
+				//Read Values
+				Statement stmt8 = connection.createStatement();	
+				String sql8 = "select comparable from value where ruleid = "+ID;				
+				ResultSet rs8 = stmt8.executeQuery(sql8);
+				
+				while(rs8.next()) {
+					Value value = new Value(rs8.getString(1));
+					cf.addValue(value);
+				}
+				
+				rs8.close();
 			}
 			
-			rs.close();
+			for(BusinessRule b : allBusinessRules) {
+				System.out.println(b.toString());
+				for(Table t : b.getAllTables()) {
+					System.out.println("\tTable: " + t.getName());
+					for(Column c : t.getAllColumns()) {
+						System.out.println("\tColumn: " + c.getName());
+					}
+				}
+				for(ErrorMessage em : b.getAllErrorMessages()) {
+					System.out.println("\tErrorMessage: " + em.getCode() + " - " + em.getMessage());
+				}
+				for(Event e : b.getConstrainsFacade().getAllEvents()) {
+					System.out.println("\tEvent: " + e.getType());
+				}
+				for(Operator o : b.getConstrainsFacade().getAllOperators()) {
+					System.out.println("\tOperator: " + o.getType());
+				}
+				for(Value v : b.getConstrainsFacade().getAllValues()) {
+					System.out.println("\tValue: " + v.getComparable());
+				}
+				System.out.println();
+			}
+			
+			
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		factory.closeConnection();
-		return allBusinessRuleNames;
-	}
-
-	@Override
-	public void fillDomain() {
-		// TODO Auto-generated method stub
-		System.out.println("test");
 	}
 }

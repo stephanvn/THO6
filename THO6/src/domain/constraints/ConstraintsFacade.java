@@ -7,21 +7,11 @@ public class ConstraintsFacade {
 	private ArrayList<Event> allEvents;
 	private ArrayList<Operator> allOperators;
 	private ArrayList<Value> allValues;
-	private String name;
 
-	public ConstraintsFacade(String name) {
+	public ConstraintsFacade() {
 		allEvents = new ArrayList<Event>();
 		allOperators = new ArrayList<Operator>();
 		allValues = new ArrayList<Value>();
-		this.name = name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName(){
-		return name;
 	}
 
 	public ArrayList<Event> getAllEvents() {

@@ -4,12 +4,20 @@ import java.util.ArrayList;
 
 public class Table {
 	
+	private int ID;
 	private String name;
+	private int position;
 	private ArrayList<Column> allColumns;
 	
-	public Table(String n) {
-		name = n;
+	public Table(int ID,String name,int position) {
+		this.ID = ID;
+		this.name = name;
+		this.position = position;
 		allColumns = new ArrayList<Column>();
+	}
+	
+	public int getID() {
+		return ID;
 	}
 
 	public String getName() {
@@ -18,6 +26,10 @@ public class Table {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getPosition() {
+		return position;
 	}
 
 	public ArrayList<Column> getAllColumns() {
