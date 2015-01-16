@@ -40,8 +40,7 @@ public class MainFrame extends JFrame {
 		createGUI();
 	}
 	
-public void createGUI() {
-		
+public void createGUI() {	
 		checkboxes = new ArrayList<JCheckBox>();
 		
 	    contentPane = new JPanel();
@@ -72,7 +71,7 @@ public void createGUI() {
 		scrollPane = new JScrollPane(contentPane);
 		scrollPane.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Business Rules Generator", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		getContentPane().add(scrollPane, BorderLayout.CENTER);		
 		
 		panel = new JPanel();
 		panel.setBackground(Color.GRAY);
@@ -86,6 +85,8 @@ public void createGUI() {
 		setSize(540, 300);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		fillBusinessRules();
 	}
 	
 	public BusinessRuleControl getBusinessRuleControl() {
@@ -94,6 +95,26 @@ public void createGUI() {
 	
 	public void setControl(BusinessRuleControl brc) {
 		control = brc;
+	}
+	
+	public void fillBusinessRules() {
+		for(JCheckBox c : checkboxes) {
+			contentPane.remove(c);
+		}
+		
+		String type = cb1.getSelectedItem().toString();
+		checkboxes.clear();
+		String labels[] = control.getAllBusinessRulesByType(type);
+		
+		for (int i = 0; i < labels.length; i++) {
+    		if(labels[i] == null) {
+    			break;
+    		}
+    		JCheckBox checkbox = new JCheckBox(labels[i]);
+    		contentPane.add(checkbox);
+    		checkboxes.add(checkbox);
+    	}
+    	pack();
 	}
 	
 	ActionListener searchButton = new ActionListener() {
@@ -118,22 +139,7 @@ public void createGUI() {
 	
 	ActionListener showButton = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {			
-			for(JCheckBox c : checkboxes) {
-				contentPane.remove(c);
-			}
-			
-			String type = cb1.getSelectedItem().toString();
-			checkboxes.clear();
-			String labels[] = control.getAllBusinessRulesByType(type);
-			for (int i = 0; i < labels.length; i++) {
-	    		if(labels[i] == null) {
-	    			break;
-	    		}
-	    		JCheckBox checkbox = new JCheckBox(labels[i]);
-	    		contentPane.add(checkbox);
-	    		checkboxes.add(checkbox);
-	    	}
-	    	pack();
+			fillBusinessRules();
 		}
 	};
 	

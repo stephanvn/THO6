@@ -52,12 +52,21 @@ public class BusinessRuleControl {
 	public String[] getAllBusinessRulesByType(String t) {
 		String[] array = new String[allBusinessRules.size()];
 		int counter = 0;
-		for(BusinessRule b : allBusinessRules) {
-			if(b.getType().getName().equals(t)){
-				array[counter] = b.getName();
+		if(t.equals("All")) {
+			for(BusinessRule b1 : allBusinessRules) {
+				array[counter] = b1.getName();
 				counter++;
 			}
 		}
+		else {
+			for(BusinessRule b2 : allBusinessRules) {
+				if(b2.getType().getName().equals(t)){
+					array[counter] = b2.getName();
+					counter++;
+				}
+			}
+		}
+		
 		return array;
 	}
 	
@@ -72,8 +81,9 @@ public class BusinessRuleControl {
 	}
 	
 	public String[] getAllBusinessRulesTypeString() {
-		String[] array = new String[containingTypes.size()];
-		int counter = 0;
+		String[] array = new String[containingTypes.size()+1];
+		array[0] = "All";
+		int counter = 1;
 		for(BusinessRuleType t : containingTypes) {
 			array[counter] = t.getName();
 			counter++;
@@ -100,6 +110,11 @@ public class BusinessRuleControl {
 	
 	public void fillDomainFromDatabase(){
 		//Replace "oracle" with other database, or make it an option on userInterface so user can choose
-		DAOFactorySetupRef.getAllBusinessRulesFromDatabase("oracle");
+		allBusinessRules = DAOFactorySetupRef.getAllBusinessRulesFromDatabase("oracle");
+		for(BusinessRule br : allBusinessRules) {
+			if(!hasType(br.getType())) {
+				containingTypes.add(br.getType());
+			}
+		}
 	}
 }

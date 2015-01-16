@@ -26,12 +26,13 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	}
 
 	@Override
-	public void fillDomain() {
+	public ArrayList<BusinessRule> fillDomain() {
 		Connection connection = null;
 		
 		connection = factory.getConnection();
 		
 		ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
+		ArrayList<BusinessRule> allCorrectBusinessRules = new ArrayList<BusinessRule>();
 				
 		try {
 			Statement stmt1 = connection.createStatement();			
@@ -62,7 +63,8 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				ResultSet rs2 = stmt2.executeQuery(sql2);
 				
 				while(rs2.next()){
-					Table tab = new Table(rs2.getInt(1),rs2.getString(2),rs2.getInt(3));
+					String tabCode = rs2.getString(2).substring(0, Math.min( rs2.getString(2).length(), 3));
+					Table tab = new Table(rs2.getInt(1),tabCode,rs2.getInt(3));
 					
 					//Read Columns
 					Statement stmt3 = connection.createStatement();	
@@ -70,7 +72,8 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 					ResultSet rs3 = stmt3.executeQuery(sql3);
 					
 					while(rs3.next()){
-						Column col = new Column(rs3.getString(1),rs3.getInt(2));
+						String colCode = rs3.getString(1).substring(0, Math.min( rs3.getString(1).length(), 3));
+						Column col = new Column(colCode,rs3.getInt(2));
 						tab.addColumn(col);
 					}
 					
@@ -164,10 +167,18 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				}
 				
 				rs8.close();
+				
+				//If the BusinessRule has been completely loaded, add to correct list
+				if(b.generateName()) {
+					allCorrectBusinessRules.add(b);
+				}
 			}
 			
-			for(BusinessRule b : allBusinessRules) {
-				System.out.println(b.toString());
+			allBusinessRules = null;
+			
+			//Check loaded data
+			/*for(BusinessRule b : allCorrectBusinessRules) {
+				System.out.println(b.getName());
 				for(Table t : b.getAllTables()) {
 					System.out.println("\tTable: " + t.getName());
 					for(Column c : t.getAllColumns()) {
@@ -187,7 +198,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 					System.out.println("\tValue: " + v.getComparable());
 				}
 				System.out.println();
-			}
+			}*/
 			
 			
 		}
@@ -195,5 +206,6 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			e.printStackTrace();
 		}
 		factory.closeConnection();
+		return allCorrectBusinessRules;
 	}
 }

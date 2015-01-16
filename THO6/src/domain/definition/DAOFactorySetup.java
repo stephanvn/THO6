@@ -1,5 +1,7 @@
 package domain.definition;
 
+import java.util.ArrayList;
+
 import data.DAOFactory;
 import data.DAOFactoryOracle;
 
@@ -23,9 +25,9 @@ public class DAOFactorySetup {
 	}
 	
 	//Fills domain with all businessRules from database
-	public void getAllBusinessRulesFromDatabase(String databaseType){
+	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase(String databaseType){
 		factory = getDAOFactory(databaseType);
-		factory.getAllBusinessRulesFromDatabase();
+		return factory.getAllBusinessRulesFromDatabase();
 	}
 
 }

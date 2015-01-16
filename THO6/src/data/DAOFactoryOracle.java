@@ -3,6 +3,9 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import domain.definition.BusinessRule;
 
 public class DAOFactoryOracle implements DAOFactory {
 	
@@ -44,10 +47,10 @@ public class DAOFactoryOracle implements DAOFactory {
 	}
 
 	@Override
-	public void getAllBusinessRulesFromDatabase() {
+	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase() {
 		// TODO Auto-generated method stub
 		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this);
-		bdao.fillDomain();		
+		return bdao.fillDomain();		
 	}
 
 }

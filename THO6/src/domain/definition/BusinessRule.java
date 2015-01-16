@@ -97,12 +97,19 @@ public class BusinessRule {
 		allTables.add(t);
 	}
 
-	public void generateName() {
+	public boolean generateName() {
+		boolean b = true;
+		try {
 		name = "BRG_" + this.theBRGUser.getCode() + "_"
 				+ this.getAllTables().get(0).getAllColumns().get(0).getCode() + "_"
 				+ "CNS_"
 				+ this.getType().getCode() + "_"
 				+ "001";
+		}
+		catch(Exception e) {
+			b = false;
+		}
+		return b;
 	}
 
 	public void generateCode() {
