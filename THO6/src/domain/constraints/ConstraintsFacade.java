@@ -22,15 +22,24 @@ public class ConstraintsFacade {
 		String s = "";
 		for (int i = 0; i + 1 < allEvents.size(); i++) {
 			s += "'"
-					+ allEvents.get(i).getType()
-							.substring(0, Math.min(allEvents.get(i).getType().length(), 3))
-							.toUpperCase() + "',";
+					+ allEvents
+							.get(i)
+							.getType()
+							.substring(
+									0,
+									Math.min(allEvents.get(i).getType()
+											.length(), 3)).toUpperCase() + "',";
 		}
 		s += "'"
-				+ allEvents.get(allEvents.size() - 1).getType()
-					.substring(0, Math.min(allEvents.get(allEvents.size()-1).getType().length(), 3))
-					
-					.toUpperCase()	+ "'";
+				+ allEvents
+						.get(allEvents.size() - 1)
+						.getType()
+						.substring(
+								0,
+								Math.min(allEvents.get(allEvents.size() - 1)
+										.getType().length(), 3))
+
+						.toUpperCase() + "'";
 		return s;
 	}
 
@@ -44,6 +53,15 @@ public class ConstraintsFacade {
 
 	public ArrayList<Value> getAllValues() {
 		return allValues;
+	}
+
+	public String getAllValuesAsString() {
+		String s = "";
+		for (int i = 0; i + 1 < allValues.size(); i++) {
+			s += "'" + allValues.get(i).getComparable() + "',";
+		}
+		s += "'" + allValues.get(allValues.size()-1).getComparable() + "'";
+		return s;
 	}
 
 	public void setAllValues(ArrayList<Value> allValues) {

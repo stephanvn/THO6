@@ -4,13 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import domain.definition.BusinessRule;
-import domain.definition.BusinessRuleType;
 import domain.definition.DAOFactorySetup;
 
 public class BusinessRuleControl {
 	
 	private ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
-	private ArrayList<BusinessRuleType> containingTypes = new ArrayList<BusinessRuleType>();
+	private ArrayList<String> allBusinessRuleTypesString = new ArrayList<String>();
 	private DAOFactorySetup DAOFactorySetupRef = DAOFactorySetup.getInstance();
 	private static BusinessRuleControl instance = null;
 	
@@ -31,10 +30,6 @@ public class BusinessRuleControl {
 	
 	public void addBusinessRule(BusinessRule b) {
 		allBusinessRules.add(b);
-		BusinessRuleType t = b.getType();
-		if(!hasType(t)) {
-			containingTypes.add(t);
-		}
 	}
 	
 	public String[] getAllBusinessRulesBySearch(String t) {
@@ -80,21 +75,14 @@ public class BusinessRuleControl {
 		return b;
 	}
 	
-	public String[] getAllBusinessRulesTypeString() {
-		String[] array = new String[containingTypes.size()+1];
-		array[0] = "All";
-		int counter = 1;
-		for(BusinessRuleType t : containingTypes) {
-			array[counter] = t.getName();
-			counter++;
-		}
-		return array;
+	public ArrayList<String> getAllBusinessRulesTypeString() {
+		return allBusinessRuleTypesString;
 	}
 	
-	private boolean hasType(BusinessRuleType type) {
+	private boolean hasType(String type) {
 		boolean b = false;
-		for(BusinessRuleType t : containingTypes) {
-			if(t.getName().equals(type.getName())) {
+		for(String t : allBusinessRuleTypesString) {
+			if(t.equals(type)) {
 				b = true;
 			}
 		}
@@ -112,8 +100,8 @@ public class BusinessRuleControl {
 		//Replace "oracle" with other database, or make it an option on userInterface so user can choose
 		allBusinessRules = DAOFactorySetupRef.getAllBusinessRulesFromDatabase("oracle");
 		for(BusinessRule br : allBusinessRules) {
-			if(!hasType(br.getType())) {
-				containingTypes.add(br.getType());
+			if(!hasType(br.getType().getName())) {
+				allBusinessRuleTypesString.add(br.getType().getName());
 			}
 		}
 	}

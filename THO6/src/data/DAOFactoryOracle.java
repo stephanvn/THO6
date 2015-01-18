@@ -49,8 +49,10 @@ public class DAOFactoryOracle implements DAOFactory {
 	@Override
 	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase() {
 		// TODO Auto-generated method stub
-		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this);
-		return bdao.fillDomain();		
+		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this.getConnection());
+		ArrayList<BusinessRule> rules = bdao.fillDomain();		
+		this.closeConnection();
+		return rules;
 	}
 
 }

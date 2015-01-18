@@ -27,8 +27,15 @@ public class GeneratedCode {
 			typeSpecificCode = th.getAttributeRangeRuleTemplate();
 		}
 		
+		if(theBusinessRule.getType().getName().equals("Attribute Compare Rule")){
+			typeSpecificCode = th.getAttributeCompareRuleTemplate();
+		}
+		
 		if(typeSpecificCode != null){
 			GeneratedCode = defaultCode + typeSpecificCode;
+		}
+		if(typeSpecificCode == null){
+			GeneratedCode = defaultCode;
 		}
 	}
 }

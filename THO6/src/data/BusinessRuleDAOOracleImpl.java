@@ -19,17 +19,17 @@ import domain.userManagement.BRGUser;
 
 public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	
-	private DAOFactoryOracle factory;
+	private Connection con;
 	
-	public BusinessRuleDAOOracleImpl(DAOFactoryOracle factory) {
-		this.factory = factory;
+	public BusinessRuleDAOOracleImpl(Connection con) {
+		this.con = con;
 	}
 
 	@Override
 	public ArrayList<BusinessRule> fillDomain() {
 		Connection connection = null;
 		
-		connection = factory.getConnection();
+		connection = con;
 		
 		ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 		ArrayList<BusinessRule> allCorrectBusinessRules = new ArrayList<BusinessRule>();
@@ -205,7 +205,6 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-		factory.closeConnection();
 		return allCorrectBusinessRules;
 	}
 }

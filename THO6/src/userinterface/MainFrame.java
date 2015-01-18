@@ -61,7 +61,7 @@ public void createGUI() {
 		textPanel.add(btnSearch, "cell 0 0,grow");
 		btnSearch.addActionListener(searchButton);
 		
-		cb1 = new JComboBox<String>(control.getAllBusinessRulesTypeString());
+		cb1 = new JComboBox(control.getAllBusinessRulesTypeString().toArray());
 		textPanel.add(cb1, "cell 0 1,grow");
 		
 		btnShow = new JButton("Show");
