@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import domain.definition.BusinessRule;
 import domain.definition.DAOFactorySetup;
@@ -110,5 +112,8 @@ public class BusinessRuleControl {
 				allBusinessRuleTypesString.add(br.getType().getName());
 			}
 		}
+		//Sort on alphabet
+		List<String> subList = allBusinessRuleTypesString.subList(1, allBusinessRuleTypesString.size());
+		Collections.sort(subList);
 	}
 }
