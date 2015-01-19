@@ -87,23 +87,33 @@ public void createGUI() {
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		fillBusinessRules();
+		fillBusinessRules("typeSearch");
 	}
 	
-	public void fillBusinessRules() {
+	private void fillBusinessRules(String method) {
 		for(JCheckBox c : checkboxes) {
 			contentPane.remove(c);
+		}	
+		
+		checkboxes.clear();
+		ArrayList<String> searchStrings = new ArrayList<String>();
+		if(method.equals("stringSearch")) {
+			String term = txtSearchBusinessRule.getText();
+			searchStrings = control.getAllBusinessRulesBySearch(term);
+			System.out.println("test1");
+			cb1 = new JComboBox(control.getAllBusinessRulesTypeString().toArray());
+			textPanel.add(cb1, "cell 0 1,grow");
+			System.out.println(cb1.getSelectedItem().toString());
+		}
+		else if(method.equals("typeSearch")) {
+			System.out.println("test3");
+			String type = cb1.getSelectedItem().toString();
+			searchStrings = control.getAllBusinessRulesByType(type);
+			txtSearchBusinessRule.repaint();
 		}
 		
-		String type = cb1.getSelectedItem().toString();
-		checkboxes.clear();
-		String labels[] = control.getAllBusinessRulesByType(type);
-		
-		for (int i = 0; i < labels.length; i++) {
-    		if(labels[i] == null) {
-    			break;
-    		}
-    		JCheckBox checkbox = new JCheckBox(labels[i]);
+		for (int i = 0; i < searchStrings.size(); i++) {
+    		JCheckBox checkbox = new JCheckBox(searchStrings.get(i));
     		contentPane.add(checkbox);
     		checkboxes.add(checkbox);
     	}
@@ -112,61 +122,14 @@ public void createGUI() {
 
 	ActionListener comboBoxChanged = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {			
-			fillBusinessRules();
-		}
-	};
-	
-	ActionListener generateButton = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {			
-			ArrayList<String> list = new ArrayList<String>();
-			for(JCheckBox m : checkboxes) {
-				if(m.isSelected()) {
-					list.add(m.getText());
-				}
-			}
-			
-			if(list.size()>0) {
-				JFileChooser fc = new JFileChooser();
-				fc.setDialogTitle("Choose a save location");
-				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				fc.setAcceptAllFileFilterUsed(false);
-				int returnVal = fc.showOpenDialog(contentPane);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					 File file = fc.getSelectedFile();
-					 try {
-						control.generate(list,file);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					 JOptionPane.showMessageDialog(null, list.size() + " Business Rules generated");
-				}				
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "No Business Rules selected");
-			}			
+			fillBusinessRules("typeSearch");
 		}
 	};
 	
 	KeyListener searchOnKey = new KeyListener() {
 		@Override
 		public void keyReleased(KeyEvent keyEvent) {
-			for(JCheckBox c : checkboxes) {
-				contentPane.remove(c);
-			}
-			String term = txtSearchBusinessRule.getText();
-			checkboxes.clear();
-			String labels[] = control.getAllBusinessRulesBySearch(term);
-			for (int i = 0; i < labels.length; i++) {
-	    		if(labels[i] == null) {
-	    			break;
-	    		}
-	    		JCheckBox checkbox = new JCheckBox(labels[i]);
-	    		contentPane.add(checkbox);
-	    		checkboxes.add(checkbox);
-	    	}
-			cb1.setSelectedIndex(0);
-	    	pack();
+			fillBusinessRules("stringSearch");
 		}
 
 		@Override
@@ -201,6 +164,38 @@ public void createGUI() {
 					c.setSelected(false);
 				}
 			}
+		}
+	};
+	
+	ActionListener generateButton = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {			
+			ArrayList<String> list = new ArrayList<String>();
+			for(JCheckBox m : checkboxes) {
+				if(m.isSelected()) {
+					list.add(m.getText());
+				}
+			}
+			
+			if(list.size()>0) {
+				JFileChooser fc = new JFileChooser();
+				fc.setDialogTitle("Choose a save location");
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fc.setAcceptAllFileFilterUsed(false);
+				int returnVal = fc.showOpenDialog(contentPane);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					 File file = fc.getSelectedFile();
+					 try {
+						control.generate(list,file);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					 JOptionPane.showMessageDialog(null, list.size() + " Business Rules generated");
+				}				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "No Business Rules selected");
+			}			
 		}
 	};
 

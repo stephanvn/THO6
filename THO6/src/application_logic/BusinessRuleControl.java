@@ -36,32 +36,27 @@ public class BusinessRuleControl {
 		allBusinessRules.add(b);
 	}
 	
-	public String[] getAllBusinessRulesBySearch(String t) {
-		String[] array = new String[allBusinessRules.size()];
-		int counter = 0;
+	public ArrayList<String> getAllBusinessRulesBySearch(String t) {
+		ArrayList<String> array = new ArrayList<String>();
 		for(BusinessRule b : allBusinessRules) {
 			if(b.getName().toUpperCase().contains(t.toUpperCase())){
-				array[counter] = b.getName();
-				counter++;
+				array.add(b.getName());
 			}
 		}
 		return array;
 	}
 	
-	public String[] getAllBusinessRulesByType(String t) {
-		String[] array = new String[allBusinessRules.size()];
-		int counter = 0;
+	public ArrayList<String> getAllBusinessRulesByType(String t) {
+		ArrayList<String> array = new ArrayList<String>();
 		if(t.equals("All")) {
 			for(BusinessRule b1 : allBusinessRules) {
-				array[counter] = b1.getName();
-				counter++;
+				array.add(b1.getName());
 			}
 		}
 		else {
 			for(BusinessRule b2 : allBusinessRules) {
 				if(b2.getType().getName().equals(t)){
-					array[counter] = b2.getName();
-					counter++;
+					array.add(b2.getName());
 				}
 			}
 		}
