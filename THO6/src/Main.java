@@ -9,7 +9,7 @@ public class Main {
 		brc.fillDomainFromDatabase();
 		
 		new MainFrame(brc);
-		System.out.println(brc.getAllBusinessRules().get(10).getConstrainsFacade().getAllValuesAsString());
+		//System.out.println(brc.getAllBusinessRules().get(10).getConstrainsFacade().getAllValuesAsString());
 	}
 
 }

@@ -31,7 +31,7 @@ public class MainFrame extends JFrame {
 	private JComboBox<String> cb1;
 	private JPanel panel,contentPane,textPanel;
 	private JScrollPane scrollPane;
-	private JButton btnSearch,btnShow,btnGenerate;
+	private JButton btnSearch,btnGenerate,btnSelectAll;
 	private MyTextField txtSearchBusinessRule;
 	private ArrayList<JCheckBox> checkboxes;
 	
@@ -41,6 +41,7 @@ public class MainFrame extends JFrame {
 		createGUI();
 	}
 	
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public void createGUI() {	
 		checkboxes = new ArrayList<JCheckBox>();
 		
@@ -55,20 +56,20 @@ public void createGUI() {
 		txtSearchBusinessRule = new MyTextField();
 		txtSearchBusinessRule.setPlaceholder("Search rule");
 		textPanel.add(txtSearchBusinessRule, "cell 0 0,grow");
-		txtSearchBusinessRule.setColumns(13);
-		
+		txtSearchBusinessRule.setColumns(13);		
 		
 		btnSearch = new JButton("Search");
 		textPanel.add(btnSearch, "cell 0 0,grow");
 		btnSearch.addActionListener(searchButton);
 		
 		cb1 = new JComboBox(control.getAllBusinessRulesTypeString().toArray());
+		cb1.addActionListener(comboBoxChanged);
 		textPanel.add(cb1, "cell 0 1,grow");
 		
-		btnShow = new JButton("Show");
-		textPanel.add(btnShow, "cell 0 1,grow");
-		btnShow.addActionListener(showButton);
-		
+		btnSelectAll = new JButton("Select/De-select all");
+		textPanel.add(btnSelectAll, "cell 0 2,grow");
+		btnSelectAll.addActionListener(selectAllButton);
+
 		scrollPane = new JScrollPane(contentPane);
 		scrollPane.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Business Rules Generator", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -130,7 +131,7 @@ public void createGUI() {
 		}
 	};
 	
-	ActionListener showButton = new ActionListener() {
+	ActionListener comboBoxChanged = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {			
 			fillBusinessRules();
 		}
@@ -165,6 +166,27 @@ public void createGUI() {
 			else {
 				JOptionPane.showMessageDialog(null, "No Business Rules selected");
 			}			
+		}
+	};
+	
+	ActionListener selectAllButton = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			boolean allChecked = true;
+			for(JCheckBox c : checkboxes) {
+				if(!c.isSelected()) {
+					allChecked = false;
+				}
+			}
+			if(!allChecked) {
+				for(JCheckBox c : checkboxes) {
+					c.setSelected(true);
+				}
+			}
+			else {
+				for(JCheckBox c : checkboxes) {
+					c.setSelected(false);
+				}
+			}
 		}
 	};
 
