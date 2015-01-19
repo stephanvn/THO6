@@ -100,11 +100,15 @@ public class BusinessRule {
 	public boolean generateName() {
 		boolean b = true;
 		try {
-		name = "BRG_" + this.theBRGUser.getCode() + "_"
-				+ this.getAllTables().get(0).getAllColumns().get(0).getCode() + "_"
-				+ "CNS_"
-				+ this.getType().getCode() + "_"
-				+ "001";
+		name = "BRG_" + this.theBRGUser.getCode() + "_";
+		if(this.getAllTables().size() > 0) {
+			if(this.getAllTables().get(0).getAllColumns().size() > 0) {
+				name += this.getAllTables().get(0).getAllColumns().get(0).getCode() + "_";
+			}
+		}
+		name += "CNS_"
+		+ this.getType().getCode() + "_"
+		+ "001";
 		}
 		catch(Exception e) {
 			b = false;

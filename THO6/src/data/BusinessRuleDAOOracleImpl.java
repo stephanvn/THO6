@@ -32,7 +32,6 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		connection = con;
 		
 		ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
-		ArrayList<BusinessRule> allCorrectBusinessRules = new ArrayList<BusinessRule>();
 				
 		try {
 			Statement stmt1 = connection.createStatement();			
@@ -168,16 +167,10 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				
 				rs8.close();
 				
-				//If the BusinessRule has been completely loaded, add to correct list
-				if(b.generateName()) {
-					allCorrectBusinessRules.add(b);
-				}
 			}
 			
-			allBusinessRules = null;
-			
 			//Check loaded data
-			/*for(BusinessRule b : allCorrectBusinessRules) {
+			/*for(BusinessRule b : allBusinessRules) {
 				System.out.println(b.getName());
 				for(Table t : b.getAllTables()) {
 					System.out.println("\tTable: " + t.getName());
@@ -205,6 +198,6 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return allCorrectBusinessRules;
+		return allBusinessRules;
 	}
 }
