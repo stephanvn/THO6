@@ -57,10 +57,12 @@ public class ConstraintsFacade {
 
 	public String getAllValuesAsString() {
 		String s = "";
+		if(allValues.size() > 0){
 		for (int i = 0; i + 1 < allValues.size(); i++) {
 			s += "'" + allValues.get(i).getComparable() + "',";
 		}
-		s += "'" + allValues.get(allValues.size()-1).getComparable() + "'";
+		s += "'" + allValues.get(allValues.size() - 1).getComparable() + "'";
+		}
 		return s;
 	}
 

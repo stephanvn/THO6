@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -89,14 +90,6 @@ public void createGUI() {
 		fillBusinessRules();
 	}
 	
-	public BusinessRuleControl getBusinessRuleControl() {
-		return control;
-	}
-	
-	public void setControl(BusinessRuleControl brc) {
-		control = brc;
-	}
-	
 	public void fillBusinessRules() {
 		for(JCheckBox c : checkboxes) {
 			contentPane.remove(c);
@@ -160,7 +153,12 @@ public void createGUI() {
 				int returnVal = fc.showOpenDialog(contentPane);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					 File file = fc.getSelectedFile();
-					 control.generate(list,file);
+					 try {
+						control.generate(list,file);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					 JOptionPane.showMessageDialog(null, list.size() + " Business Rules generated");
 				}				
 			}

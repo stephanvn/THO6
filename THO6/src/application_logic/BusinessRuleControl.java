@@ -1,6 +1,8 @@
 package application_logic;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import domain.definition.BusinessRule;
@@ -89,11 +91,14 @@ public class BusinessRuleControl {
 		return b;
 	}
 	
-	public void generate(ArrayList<String> list,File file) {
+	public void generate(ArrayList<String> list,File file) throws IOException {
+		FileWriter fw = new FileWriter(file);
 		for(String s : list) {
 			BusinessRule b = searchBusinessRule(s);
 			b.generateCode();
+			fw.write(b.getTheGeneratedCode().getGeneratedCode());
 		}
+		fw.close();
 	}	
 	
 	public void fillDomainFromDatabase(){
