@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class MainFrame extends JFrame {
 	private JComboBox<String> cb1;
 	private JPanel panel,contentPane,textPanel;
 	private JScrollPane scrollPane;
-	private JButton btnSearch,btnGenerate,btnSelectAll;
+	private JButton btnGenerate,btnSelectAll;
 	private MyTextField txtSearchBusinessRule;
 	private ArrayList<JCheckBox> checkboxes;
 	
@@ -56,11 +58,8 @@ public void createGUI() {
 		txtSearchBusinessRule = new MyTextField();
 		txtSearchBusinessRule.setPlaceholder("Search rule");
 		textPanel.add(txtSearchBusinessRule, "cell 0 0,grow");
-		txtSearchBusinessRule.setColumns(13);		
-		
-		btnSearch = new JButton("Search");
-		textPanel.add(btnSearch, "cell 0 0,grow");
-		btnSearch.addActionListener(searchButton);
+		txtSearchBusinessRule.setColumns(13);	
+		txtSearchBusinessRule.addKeyListener(searchOnKey);
 		
 		cb1 = new JComboBox(control.getAllBusinessRulesTypeString().toArray());
 		cb1.addActionListener(comboBoxChanged);
@@ -110,27 +109,7 @@ public void createGUI() {
     	}
     	pack();
 	}
-	
-	ActionListener searchButton = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {			
-			for(JCheckBox c : checkboxes) {
-				contentPane.remove(c);
-			}
-			String term = txtSearchBusinessRule.getText();
-			checkboxes.clear();
-			String labels[] = control.getAllBusinessRulesBySearch(term);
-			for (int i = 0; i < labels.length; i++) {
-	    		if(labels[i] == null) {
-	    			break;
-	    		}
-	    		JCheckBox checkbox = new JCheckBox(labels[i]);
-	    		contentPane.add(checkbox);
-	    		checkboxes.add(checkbox);
-	    	}
-	    	pack();
-		}
-	};
-	
+
 	ActionListener comboBoxChanged = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {			
 			fillBusinessRules();
@@ -167,6 +146,41 @@ public void createGUI() {
 				JOptionPane.showMessageDialog(null, "No Business Rules selected");
 			}			
 		}
+	};
+	
+	KeyListener searchOnKey = new KeyListener() {
+		@Override
+		public void keyReleased(KeyEvent keyEvent) {
+			for(JCheckBox c : checkboxes) {
+				contentPane.remove(c);
+			}
+			String term = txtSearchBusinessRule.getText();
+			checkboxes.clear();
+			String labels[] = control.getAllBusinessRulesBySearch(term);
+			for (int i = 0; i < labels.length; i++) {
+	    		if(labels[i] == null) {
+	    			break;
+	    		}
+	    		JCheckBox checkbox = new JCheckBox(labels[i]);
+	    		contentPane.add(checkbox);
+	    		checkboxes.add(checkbox);
+	    	}
+			cb1.setSelectedIndex(0);
+	    	pack();
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+			
 	};
 	
 	ActionListener selectAllButton = new ActionListener() {
