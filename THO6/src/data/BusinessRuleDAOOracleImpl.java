@@ -161,8 +161,17 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				ResultSet rs8 = stmt8.executeQuery(sql8);
 				
 				while(rs8.next()) {
-					Value value = new Value(rs8.getString(1));
-					cf.addValue(value);
+					if(b.getType().getCode().equals("ALIS")) {
+						String values[] = rs8.getString(1).split(":");
+						for(String s : values) {
+							Value value = new Value(s);
+							cf.addValue(value);
+						}
+					}
+					else {
+						Value value = new Value(rs8.getString(1));
+						cf.addValue(value);
+					}					
 				}
 				
 				rs8.close();
@@ -170,7 +179,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			}
 			
 			//Check loaded data
-			/*for(BusinessRule b : allBusinessRules) {
+			for(BusinessRule b : allBusinessRules) {
 				System.out.println(b.getName());
 				for(Table t : b.getAllTables()) {
 					System.out.println("\tTable: " + t.getName());
@@ -191,7 +200,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 					System.out.println("\tValue: " + v.getComparable());
 				}
 				System.out.println();
-			}*/
+			}
 			
 			
 		}
