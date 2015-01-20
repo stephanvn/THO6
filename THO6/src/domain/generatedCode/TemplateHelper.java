@@ -90,7 +90,7 @@ public class TemplateHelper {
 		return attributeCompareRule.render();
 	}
 
-	public String getAttributeListRuleTemplate(BusinessRule theBusinessRule){
+	public String getAttributeListRuleTemplate(BusinessRule theBusinessRule) {
 		Path pathAbsolute = Paths.get("/THO6/templates/attributeListRule.txt");
 		Path pathBase = Paths.get("/THO6");
 		Path pathRelative = pathBase.relativize(pathAbsolute);
@@ -102,12 +102,16 @@ public class TemplateHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		addAttributeToTemplate(attributeListRule, "eventsStringAbb",
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
-		addAttributeToTemplate(attributeListRule, "column",
-				theBusinessRule.getAllTables().get(0).getAllColumns().get(0).getName());
-		addAttributeToTemplate(attributeListRule, "values", theBusinessRule.getConstrainsFacade().getAllValuesAsString());
+		addAttributeToTemplate(attributeListRule, "column", theBusinessRule
+				.getAllTables().get(0).getAllColumns().get(0).getName());
+		addAttributeToTemplate(attributeListRule, "values", theBusinessRule
+				.getConstrainsFacade().getAllValuesAsString());
+		addAttributeToTemplate(attributeListRule, "errorMessage",
+				theBusinessRule.getAllErrorMessages().get(0).getMessage());
+
 		return attributeListRule.render();
 	}
 
