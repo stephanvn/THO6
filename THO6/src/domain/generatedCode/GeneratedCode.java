@@ -5,37 +5,47 @@ import domain.definition.BusinessRule;
 
 
 public class GeneratedCode {
-	private String GeneratedCode;
+	private String generatedCode;
+	private TemplateHelper th;
 
 	public GeneratedCode() {
+		TemplateHelper th = new TemplateHelper();
 	}
 
 	public String getGeneratedCode() {
-		return GeneratedCode;
+		return generatedCode;
 	}
 
 	public void setGeneratedCode(String generatedCode) {
-		GeneratedCode = generatedCode;
+		this.generatedCode = generatedCode;
 	}
 
-	public void generateCode(BusinessRule theBusinessRule){
-		TemplateHelper th = new TemplateHelper(theBusinessRule);
-		String defaultCode = th.getDefaultCode();
+	public String generateCode(BusinessRule theBusinessRule){
+		String defaultCode = th.getDefaultCode(theBusinessRule);
 		String typeSpecificCode = null;
 		
 		if(theBusinessRule.getType().getName().equals("Attribute Range Rule")){
-			typeSpecificCode = th.getAttributeRangeRuleTemplate();
+			typeSpecificCode = th.getAttributeRangeRuleTemplate(theBusinessRule);
 		}
 		
 		if(theBusinessRule.getType().getName().equals("Attribute Compare Rule")){
-			typeSpecificCode = th.getAttributeCompareRuleTemplate();
+			typeSpecificCode = th.getAttributeCompareRuleTemplate(theBusinessRule);
+		}
+		
+		if(theBusinessRule.getType().getName().equals("Attribute List Rule")){
+			typeSpecificCode = th.getAttributeListRuleTemplate(theBusinessRule);
+		}
+		
+		if(theBusinessRule.getType().getName().equals("Modify Rule")){
+			//typeSpecificCode = th.
 		}
 		
 		if(typeSpecificCode != null){
-			GeneratedCode = defaultCode + typeSpecificCode;
+			generatedCode = defaultCode + typeSpecificCode;
 		}
 		if(typeSpecificCode == null){
-			GeneratedCode = defaultCode;
+			generatedCode = defaultCode;
 		}
+		return generatedCode;
 	}
 }

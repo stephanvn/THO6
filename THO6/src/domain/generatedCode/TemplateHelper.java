@@ -13,13 +13,11 @@ public class TemplateHelper {
 
 	private ST defaultTemplate, attributeRangeRule, attributeCompareRule,
 			attributeListRule;
-	private BusinessRule theBusinessRule;
 
-	public TemplateHelper(BusinessRule theBusinessRule) {
-		this.theBusinessRule = theBusinessRule;
+	public TemplateHelper() {
 	}
 
-	public String getDefaultCode() {
+	public String getDefaultCode(BusinessRule theBusinessRule) {
 		try {
 			Path pathAbsolute = Paths
 					.get("/THO6/templates/defaultTemplate.txt");
@@ -39,7 +37,7 @@ public class TemplateHelper {
 		return defaultTemplate.render();
 	}
 
-	public String getAttributeRangeRuleTemplate() {
+	public String getAttributeRangeRuleTemplate(BusinessRule theBusinessRule) {
 		Path pathAbsolute = Paths.get("/THO6/templates/attributeRangeRule.txt");
 		Path pathBase = Paths.get("/THO6");
 		Path pathRelative = pathBase.relativize(pathAbsolute);
@@ -65,7 +63,7 @@ public class TemplateHelper {
 		return attributeRangeRule.render();
 	}
 
-	public String getAttributeCompareRuleTemplate() {
+	public String getAttributeCompareRuleTemplate(BusinessRule theBusinessRule) {
 		Path pathAbsolute = Paths
 				.get("/THO6/templates/attributeCompareRule.txt");
 		Path pathBase = Paths.get("/THO6");
@@ -92,7 +90,7 @@ public class TemplateHelper {
 		return attributeCompareRule.render();
 	}
 
-	public String getAttributeListRuleTemplate(){
+	public String getAttributeListRuleTemplate(BusinessRule theBusinessRule){
 		Path pathAbsolute = Paths.get("/THO6/templates/attributeListRule.txt");
 		Path pathBase = Paths.get("/THO6");
 		Path pathRelative = pathBase.relativize(pathAbsolute);
