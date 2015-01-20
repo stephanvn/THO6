@@ -6,8 +6,9 @@ public class Column {
 	private String code;
 	private int position;
 	
-	public Column(String n,int position) {
-		name = n;
+	public Column(String name,String code,int position) {
+		this.name = name;
+		this.code = code;
 		this.position = position;
 	}
 

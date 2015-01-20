@@ -62,8 +62,8 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				ResultSet rs2 = stmt2.executeQuery(sql2);
 				
 				while(rs2.next()){
-					String tabCode = rs2.getString(2).substring(0, Math.min( rs2.getString(2).length(), 3));
-					Table tab = new Table(rs2.getInt(1),tabCode,rs2.getInt(3));
+					//String tabCode = rs2.getString(2).substring(0, Math.min( rs2.getString(2).length(), 3));
+					Table tab = new Table(rs2.getInt(1),rs2.getString(2),rs2.getInt(3));
 					
 					//Read Columns
 					Statement stmt3 = connection.createStatement();	
@@ -72,7 +72,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 					
 					while(rs3.next()){
 						String colCode = rs3.getString(1).substring(0, Math.min( rs3.getString(1).length(), 3));
-						Column col = new Column(colCode,rs3.getInt(2));
+						Column col = new Column(rs3.getString(1),colCode,rs3.getInt(2));
 						tab.addColumn(col);
 					}
 					
