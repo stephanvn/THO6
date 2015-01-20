@@ -108,7 +108,7 @@ public class BusinessRule {
 							+ "_";
 				}
 			}
-			name += "CNS_" + this.getType().getCode() + "_" + "001";
+			name += "CNS_" + this.getType().getCode();
 		} catch (Exception e) {
 			b = false;
 		}

@@ -11,7 +11,7 @@ public class DAOFactoryOracle implements DAOFactory {
 	
 	private Connection connection;
 	private String URL = "jdbc:oracle:thin:@ondora01.hu.nl:8521:cursus01";
-	private String Username = "tho6_2014_2a_team45";
+	private String Username = "tho6_2014_2a_team4";
 	private String Password = "tho6_2014_2a_team4";
 	
 	public Connection getConnection() {
@@ -48,7 +48,6 @@ public class DAOFactoryOracle implements DAOFactory {
 
 	@Override
 	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase() {
-		// TODO Auto-generated method stub
 		Connection connection = getConnection();
 		ArrayList<BusinessRule> rules = null;
 		if(connection!=null) {

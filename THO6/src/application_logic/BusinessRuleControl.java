@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import userinterface.MainFrame;
 import domain.definition.BusinessRule;
 import domain.definition.DAOFactorySetup;
 
@@ -17,6 +18,14 @@ public class BusinessRuleControl {
 	private ArrayList<String> allBusinessRuleTypesString = new ArrayList<String>();
 	private DAOFactorySetup DAOFactorySetupRef = DAOFactorySetup.getInstance();
 	private static BusinessRuleControl instance = null;
+	
+	public static void main(String[] args) {
+		BusinessRuleControl brc = BusinessRuleControl.getInstance();
+		brc.fillDomainFromDatabase();
+		
+		new MainFrame(brc);
+		//System.out.println(brc.getAllBusinessRules().get(10).getConstrainsFacade().getAllValuesAsString());
+	}
 	
 	public static synchronized BusinessRuleControl getInstance(){
 		if (instance == null){
