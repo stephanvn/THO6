@@ -89,21 +89,24 @@ public class BusinessRuleControl {
 		return b;
 	}
 	
-	public void generate(ArrayList<String> list,File file) {
+	public void generate(ArrayList<String> list,File file) throws IOException {
 		Calendar now = Calendar.getInstance();
 		FileWriter fw = null; 
-		try {
-			fw = new FileWriter(file+"\\triggers_" + now.getTimeInMillis() +".txt");
-			for(String s : list) {
-				BusinessRule b = searchBusinessRule(s);
+		String fileName = file+"\\triggers_" + now.getTimeInMillis() +".txt";
+		fw = new FileWriter(fileName);
+		for(String s : list) {
+			BusinessRule b = searchBusinessRule(s);
+			try {
 				b.generateCode();
 				fw.write(b.getTheGeneratedCode().getGeneratedCode());
-			}
-			fw.close();
+			} catch(Exception e) {}			
 		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}		
+		fw.close();		
+		
+		File savedFile = new File(fileName);
+		if(savedFile.length()==0) {
+			savedFile.delete();
+		}
 	}	
 	
 	public void fillDomainFromDatabase(){

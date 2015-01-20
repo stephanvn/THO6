@@ -193,7 +193,11 @@ public class MainFrame extends JFrame {
 				int returnVal = fc.showOpenDialog(contentPane);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
-					control.generate(list, file);
+					try {
+						control.generate(list, file);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(null, list.size()
 							+ " Business Rules generated");
 				}
