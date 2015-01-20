@@ -108,6 +108,7 @@ public class BusinessRuleControl {
 			try {
 				b.generateCode();
 				fw.write(b.getTheGeneratedCode().getGeneratedCode());
+				System.out.println(b.getTheGeneratedCode().getGeneratedCode());
 			} catch(Exception e) {}			
 		}
 		fw.close();		
