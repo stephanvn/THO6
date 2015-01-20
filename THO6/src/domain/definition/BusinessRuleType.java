@@ -4,16 +4,13 @@ public class BusinessRuleType {
 	
 	private String name;
 	private String code;
-	private String description;
 	
-	public BusinessRuleType(String n, String d) {
+	public BusinessRuleType(String n) {
 		name = n;
-		description = d;
 	}
 	
-	public BusinessRuleType(String n, String d, String c) {
+	public BusinessRuleType(String n, String c) {
 		name = n;
-		description = d;
 		code = c;
 	}
 	
@@ -34,14 +31,6 @@ public class BusinessRuleType {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 }

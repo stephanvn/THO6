@@ -36,7 +36,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		try {
 			Statement stmt1 = connection.createStatement();			
 			//Read Business Rule Names
-			 String sql1 = "select rule.ruleid,u.name,brt.name,brt.description,brt.code from brguser u, businessruletype brt, businessrule rule" +
+			 String sql1 = "select rule.ruleid,u.name,brt.name,brt.code from brguser u, businessruletype brt, businessrule rule" +
 			" where u.userid = rule.userid" +
 			" and brt.typeid = rule.typeid";
 			
@@ -44,7 +44,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 
 			while(rs1.next()){
 				BRGUser user = new BRGUser(rs1.getString(2));
-				BusinessRuleType brt = new BusinessRuleType(rs1.getString(3),rs1.getString(4),rs1.getString(5));
+				BusinessRuleType brt = new BusinessRuleType(rs1.getString(3),rs1.getString(4));
 				BusinessRule br = new BusinessRule(rs1.getInt(1)); 
 				br.setTheBRGUser(user);
 				br.setType(brt);
