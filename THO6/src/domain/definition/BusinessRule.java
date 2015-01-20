@@ -118,7 +118,7 @@ public class BusinessRule {
 
 	public void generateCode() {
 		GeneratedCode gc = new GeneratedCode();
-		gc.generateCode(this);
+		String code = gc.generateCode(this);
 		setTheGeneratedCode(gc);
 	}
 
