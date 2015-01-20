@@ -22,14 +22,14 @@ public class BusinessRule {
 	public BusinessRule(int ID) {
 		this.ID = ID;
 		constraintsFacade = new ConstraintsFacade();
-		allErrorMessages = new ArrayList<ErrorMessage>();		
+		allErrorMessages = new ArrayList<ErrorMessage>();
 		allTables = new ArrayList<Table>();
 	}
-	
+
 	public ConstraintsFacade getConstrainsFacade() {
 		return constraintsFacade;
 	}
-	
+
 	public int getID() {
 		return ID;
 	}
@@ -67,7 +67,7 @@ public class BusinessRule {
 
 	public void setTheGeneratedCode(GeneratedCode theGeneratedCode) {
 		this.theGeneratedCode = theGeneratedCode;
-	}	
+	}
 
 	public ArrayList<ErrorMessage> getAllErrorMessages() {
 		return allErrorMessages;
@@ -100,17 +100,16 @@ public class BusinessRule {
 	public boolean generateName() {
 		boolean b = true;
 		try {
-		name = "BRG_" + this.theBRGUser.getCode() + "_";
-		if(this.getAllTables().size() > 0) {
-			if(this.getAllTables().get(0).getAllColumns().size() > 0) {
-				name += this.getAllTables().get(0).getAllColumns().get(0).getCode() + "_";
+			name = "BRG_" + this.theBRGUser.getCode() + "_";
+			if (this.getAllTables().size() > 0) {
+				if (this.getAllTables().get(0).getAllColumns().size() > 0) {
+					name += this.getAllTables().get(0).getAllColumns().get(0)
+							.getCode()
+							+ "_";
+				}
 			}
-		}
-		name += "CNS_"
-		+ this.getType().getCode() + "_"
-		+ "001";
-		}
-		catch(Exception e) {
+			name += "CNS_" + this.getType().getCode() + "_" + "001";
+		} catch (Exception e) {
 			b = false;
 		}
 		return b;
@@ -118,15 +117,13 @@ public class BusinessRule {
 
 	public void generateCode() {
 		GeneratedCode gc = new GeneratedCode();
-		String code = gc.generateCode(this);
-		setTheGeneratedCode(gc);
+		gc.generateCode(this);
 	}
 
 	@Override
 	public String toString() {
-		return "BusinessRule [ID=" + ID + ", name=" + name
-				+ ", type=" + type.getCode()
-				+ ", theBRGUser=" + theBRGUser.getName() + "]";
+		return "BusinessRule [ID=" + ID + ", name=" + name + ", type="
+				+ type.getCode() + ", theBRGUser=" + theBRGUser.getName() + "]";
 	}
 
 }
