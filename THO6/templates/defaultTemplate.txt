@@ -5,6 +5,8 @@ create or replace trigger $brName$
 declare
  l_oper			varchar2(3);
  l_error_stack		varchar2(4000);
+ l_passed		boolean := true;
+ $declarations$
 begin
  if inserting
  then

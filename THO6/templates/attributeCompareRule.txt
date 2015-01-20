@@ -1,12 +1,10 @@
-declare
- l_passed		boolean := true;
-begin
  if l_oper in ($eventsStringAbb$)
  then
-  l_passed:=:new.$column$ $operator$ $value$;
+  l_passed := :new.$column$ $operator$ $value$;
   if not l_passed
   then
    l_error_stack := l_error_stack || '$errorMessage$';
   end if;
  end if;
 end;
+

@@ -1,5 +1,3 @@
-declare
- l_passed	boolean := true;
 begin
  if l_oper in ($eventsStringAbb$)
  then
@@ -10,3 +8,4 @@ begin
   end if;
  end if;
 end;
+
