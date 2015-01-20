@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -89,7 +90,8 @@ public class BusinessRuleControl {
 	}
 	
 	public void generate(ArrayList<String> list,File file) throws IOException {
-		FileWriter fw = new FileWriter(file);
+		Calendar now = Calendar.getInstance();
+		FileWriter fw = new FileWriter(file+"\\triggers_" + now.getTimeInMillis() +".txt");
 		for(String s : list) {
 			BusinessRule b = searchBusinessRule(s);
 			b.generateCode();
