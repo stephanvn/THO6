@@ -97,7 +97,6 @@ public class MainFrame extends JFrame {
 		if (method.equals("stringSearch")) {
 			this.searchByString(txtSearchBusinessRule.getText());
 		} else if (method.equals("typeSearch")) {
-			System.out.println(method);
 			this.searchByType(cb1.getSelectedItem().toString());
 		}
 		pack();
@@ -115,7 +114,10 @@ public class MainFrame extends JFrame {
 	}
 
 	public void searchByString(String searchTerm) {
-		cb1.setSelectedIndex(0);
+		if(cb1.getSelectedIndex()!=0) {
+			cb1.setSelectedIndex(0);
+		}
+		
 		this.refreshBusinessRules(control
 				.getAllBusinessRulesBySearch(searchTerm));
 	}
@@ -126,8 +128,11 @@ public class MainFrame extends JFrame {
 	}
 
 	ActionListener comboBoxChanged = new ActionListener() {
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			fillBusinessRules("typeSearch");
+			if(e.getModifiers()>0) {
+				fillBusinessRules("typeSearch");
+			}
 		}
 	};
 
