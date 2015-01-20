@@ -118,6 +118,7 @@ public class BusinessRule {
 	public void generateCode() {
 		GeneratedCode gc = new GeneratedCode();
 		gc.generateCode(this);
+		this.setTheGeneratedCode(gc);
 	}
 
 	@Override
