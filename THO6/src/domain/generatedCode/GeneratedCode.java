@@ -9,7 +9,7 @@ public class GeneratedCode {
 	private TemplateHelper th;
 
 	public GeneratedCode() {
-		TemplateHelper th = new TemplateHelper();
+		th = new TemplateHelper();
 	}
 
 	public String getGeneratedCode() {
