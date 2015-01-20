@@ -112,14 +112,16 @@ public class BusinessRuleControl {
 	public void fillDomainFromDatabase(){
 		//Replace "oracle" with other database, or make it an option on userInterface so user can choose
 		allBusinessRules = DAOFactorySetupRef.getAllBusinessRulesFromDatabase("oracle");
-		allBusinessRuleTypesString.add("All");
-		for(BusinessRule br : allBusinessRules) {
-			if(!hasType(br.getType().getName())) {
-				allBusinessRuleTypesString.add(br.getType().getName());
+		if(allBusinessRules!=null) {
+			allBusinessRuleTypesString.add("All");
+			for(BusinessRule br : allBusinessRules) {
+				if(!hasType(br.getType().getName())) {
+					allBusinessRuleTypesString.add(br.getType().getName());
+				}
 			}
+			//Sort on alphabet
+			List<String> subList = allBusinessRuleTypesString.subList(1, allBusinessRuleTypesString.size());
+			Collections.sort(subList);
 		}
-		//Sort on alphabet
-		List<String> subList = allBusinessRuleTypesString.subList(1, allBusinessRuleTypesString.size());
-		Collections.sort(subList);
 	}
 }

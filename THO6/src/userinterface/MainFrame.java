@@ -40,7 +40,12 @@ public class MainFrame extends JFrame {
 	public MainFrame(BusinessRuleControl brc) {
 		super("Business Rule generator tool");
 		control = brc;
-		createGUI();
+		if(control.getAllBusinessRules()!=null) {
+			createGUI();
+		}
+		else {
+			errorMessage();
+		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -91,6 +96,10 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		fillBusinessRules("typeSearch");
+	}
+	
+	public void errorMessage() {
+		JOptionPane.showMessageDialog(null,	"No Business Rules available. Please check your connectivity!");
 	}
 
 	public void fillBusinessRules(String method) {
