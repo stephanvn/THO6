@@ -27,105 +27,110 @@ import net.miginfocom.swing.MigLayout;
 import application_logic.BusinessRuleControl;
 
 public class MainFrame extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
 	private BusinessRuleControl control;
 	private JComboBox<String> cb1;
-	private JPanel panel,contentPane,textPanel;
+	private JPanel panel, contentPane, textPanel;
 	private JScrollPane scrollPane;
-	private JButton btnGenerate,btnSelectAll;
+	private JButton btnGenerate, btnSelectAll;
 	private MyTextField txtSearchBusinessRule;
 	private ArrayList<JCheckBox> checkboxes;
-	
+
 	public MainFrame(BusinessRuleControl brc) {
 		super("Business Rule generator tool");
 		control = brc;
 		createGUI();
 	}
-	
-@SuppressWarnings({ "unchecked", "rawtypes" })
-public void createGUI() {	
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void createGUI() {
 		checkboxes = new ArrayList<JCheckBox>();
-		
-	    contentPane = new JPanel();
+
+		contentPane = new JPanel();
 		getContentPane().add(contentPane, BorderLayout.NORTH);
 		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
-		
+
 		textPanel = new JPanel();
 		contentPane.add(textPanel);
 		textPanel.setLayout(new MigLayout("", "[482px]", "[][2px]"));
-		
+
 		txtSearchBusinessRule = new MyTextField();
 		txtSearchBusinessRule.setPlaceholder("Search rule");
 		textPanel.add(txtSearchBusinessRule, "cell 0 0,grow");
-		txtSearchBusinessRule.setColumns(13);	
+		txtSearchBusinessRule.setColumns(13);
 		txtSearchBusinessRule.addKeyListener(searchOnKey);
-		
+
 		cb1 = new JComboBox(control.getAllBusinessRulesTypeString().toArray());
 		cb1.addActionListener(comboBoxChanged);
 		textPanel.add(cb1, "cell 0 1,grow");
-		
+
 		btnSelectAll = new JButton("Select/De-select all");
 		textPanel.add(btnSelectAll, "cell 0 2,grow");
 		btnSelectAll.addActionListener(selectAllButton);
 
 		scrollPane = new JScrollPane(contentPane);
-		scrollPane.setViewportBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Business Rules Generator", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		getContentPane().add(scrollPane, BorderLayout.CENTER);		
-		
+		scrollPane.setViewportBorder(new TitledBorder(UIManager
+				.getBorder("TitledBorder.border"), "Business Rules Generator",
+				TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		scrollPane
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+
 		panel = new JPanel();
 		panel.setBackground(Color.GRAY);
 		getContentPane().add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new MigLayout("", "[241px][][241px]", "[25px]"));
-		
+
 		btnGenerate = new JButton("Generate");
 		panel.add(btnGenerate, "cell 1 0,alignx center,aligny center");
 		btnGenerate.addActionListener(generateButton);
-	    
+
 		setSize(540, 300);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		fillBusinessRules("typeSearch");
 	}
-	
-	private void fillBusinessRules(String method) {
-		for(JCheckBox c : checkboxes) {
+
+	public void fillBusinessRules(String method) {
+		if (method.equals("stringSearch")) {
+			this.searchByString(txtSearchBusinessRule.getText());
+		} else if (method.equals("typeSearch")) {
+			System.out.println(method);
+			this.searchByType(cb1.getSelectedItem().toString());
+		}
+		pack();
+	}
+
+	public void refreshBusinessRules(ArrayList<String> al) {
+		for (JCheckBox c : checkboxes) {
 			contentPane.remove(c);
-		}	
-		
-		checkboxes.clear();
-		ArrayList<String> searchStrings = new ArrayList<String>();
-		if(method.equals("stringSearch")) {
-			String term = txtSearchBusinessRule.getText();
-			searchStrings = control.getAllBusinessRulesBySearch(term);
-			System.out.println("test1");
-			cb1 = new JComboBox(control.getAllBusinessRulesTypeString().toArray());
-			textPanel.add(cb1, "cell 0 1,grow");
-			System.out.println(cb1.getSelectedItem().toString());
 		}
-		else if(method.equals("typeSearch")) {
-			System.out.println("test3");
-			String type = cb1.getSelectedItem().toString();
-			searchStrings = control.getAllBusinessRulesByType(type);
-			txtSearchBusinessRule.repaint();
+		for (String s : al) {
+			JCheckBox checkbox = new JCheckBox(s);
+			contentPane.add(checkbox);
+			checkboxes.add(checkbox);
 		}
-		
-		for (int i = 0; i < searchStrings.size(); i++) {
-    		JCheckBox checkbox = new JCheckBox(searchStrings.get(i));
-    		contentPane.add(checkbox);
-    		checkboxes.add(checkbox);
-    	}
-    	pack();
+	}
+
+	public void searchByString(String searchTerm) {
+		cb1.setSelectedIndex(0);
+		this.refreshBusinessRules(control
+				.getAllBusinessRulesBySearch(searchTerm));
+	}
+
+	public void searchByType(String type) {
+		txtSearchBusinessRule.setText("");
+		refreshBusinessRules(control.getAllBusinessRulesByType(type));
 	}
 
 	ActionListener comboBoxChanged = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {			
+		public void actionPerformed(ActionEvent e) {
 			fillBusinessRules("typeSearch");
 		}
 	};
-	
+
 	KeyListener searchOnKey = new KeyListener() {
 		@Override
 		public void keyReleased(KeyEvent keyEvent) {
@@ -135,67 +140,67 @@ public void createGUI() {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-			
+
 	};
-	
+
 	ActionListener selectAllButton = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			boolean allChecked = true;
-			for(JCheckBox c : checkboxes) {
-				if(!c.isSelected()) {
+			for (JCheckBox c : checkboxes) {
+				if (!c.isSelected()) {
 					allChecked = false;
 				}
 			}
-			if(!allChecked) {
-				for(JCheckBox c : checkboxes) {
+			if (!allChecked) {
+				for (JCheckBox c : checkboxes) {
 					c.setSelected(true);
 				}
-			}
-			else {
-				for(JCheckBox c : checkboxes) {
+			} else {
+				for (JCheckBox c : checkboxes) {
 					c.setSelected(false);
 				}
 			}
 		}
 	};
-	
+
 	ActionListener generateButton = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {			
+		public void actionPerformed(ActionEvent e) {
 			ArrayList<String> list = new ArrayList<String>();
-			for(JCheckBox m : checkboxes) {
-				if(m.isSelected()) {
+			for (JCheckBox m : checkboxes) {
+				if (m.isSelected()) {
 					list.add(m.getText());
 				}
 			}
-			
-			if(list.size()>0) {
+
+			if (list.size() > 0) {
 				JFileChooser fc = new JFileChooser();
 				fc.setDialogTitle("Choose a save location");
 				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fc.setAcceptAllFileFilterUsed(false);
 				int returnVal = fc.showOpenDialog(contentPane);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					 File file = fc.getSelectedFile();
-					 try {
-						control.generate(list,file);
+					File file = fc.getSelectedFile();
+					try {
+						control.generate(list, file);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					 JOptionPane.showMessageDialog(null, list.size() + " Business Rules generated");
-				}				
+					JOptionPane.showMessageDialog(null, list.size()
+							+ " Business Rules generated");
+				}
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"No Business Rules selected");
 			}
-			else {
-				JOptionPane.showMessageDialog(null, "No Business Rules selected");
-			}			
 		}
 	};
 
