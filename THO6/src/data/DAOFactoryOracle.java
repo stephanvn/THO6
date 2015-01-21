@@ -52,7 +52,7 @@ public class DAOFactoryOracle implements DAOFactory {
 		ArrayList<BusinessRule> rules = null;
 		if(connection!=null) {
 			BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(connection);
-			rules = bdao.selectBusinessRules();		
+			rules = bdao.fillDomain();		
 			this.closeConnection();
 		}		
 		return rules;
