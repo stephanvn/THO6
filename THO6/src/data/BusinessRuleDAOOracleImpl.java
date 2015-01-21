@@ -24,9 +24,8 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	public BusinessRuleDAOOracleImpl(Connection con) {
 		this.con = con;
 	}
-
-	@Override
-	public ArrayList<BusinessRule> fillDomain() {
+	
+	public ArrayList<BusinessRule> selectBusinessRules() {
 		Connection connection = null;
 		
 		connection = con;
@@ -45,169 +44,180 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			while(rs1.next()){
 				BRGUser user = new BRGUser(rs1.getString(2));
 				BusinessRuleType brt = new BusinessRuleType(rs1.getString(3),rs1.getString(4));
+				
 				BusinessRule br = new BusinessRule(rs1.getInt(1)); 
+				
 				br.setTheBRGUser(user);
 				br.setType(brt);
+				br.setAllTables(selectTables(br.getID(),connection));
+				br.setAllErrorMessages(selectErrorMessages(br.getID(), connection));
+				ConstraintsFacade cf = br.getConstrainsFacade();
+				cf.setAllEvents(selectEvents(br.getID(),connection));
+				cf.setAllOperators(selectOperators(br.getID(),connection));
+				cf.setAllValues(selectValues(br.getID(),br.getType().getCode(),connection));
+				
 				allBusinessRules.add(br);
 			}
 			
 			rs1.close();
-
-			for(BusinessRule b : allBusinessRules) {
-				int ID = b.getID();
-				
-				//Read Tables
-				Statement stmt2 = connection.createStatement();	
-				String sql2 = "select tableid,name,position from tab where ruleid = "+ID;				
-				ResultSet rs2 = stmt2.executeQuery(sql2);
-				
-				while(rs2.next()){
-					//String tabCode = rs2.getString(2).substring(0, Math.min( rs2.getString(2).length(), 3));
-					Table tab = new Table(rs2.getInt(1),rs2.getString(2),rs2.getInt(3));
-					
-					//Read Columns
-					Statement stmt3 = connection.createStatement();	
-					String sql3 = "select name,position from col where tableid = "+tab.getID();	
-					ResultSet rs3 = stmt3.executeQuery(sql3);
-					
-					while(rs3.next()){
-						String colCode = rs3.getString(1).substring(0, Math.min( rs3.getString(1).length(), 3));
-						Column col = new Column(rs3.getString(1),colCode,rs3.getInt(2));
-						tab.addColumn(col);
-					}
-					
-					rs3.close();
-					
-					b.addTable(tab);
-				}
-				
-				rs2.close();
-				
-				//Read ErrorMessages
-				Statement stmt4 = connection.createStatement();	
-				String sql4 = "select code,message from errormessage where ruleid = "+ID;				
-				ResultSet rs4 = stmt4.executeQuery(sql4);
-				
-				while(rs4.next()){
-					ErrorMessage em = new ErrorMessage(rs4.getString(1),rs4.getString(2));
-					b.addErrorMessage(em);
-				}
-				
-				rs4.close();
-				
-				//Get ConstraintsFacade
-				ConstraintsFacade cf = b.getConstrainsFacade();
-				
-				//Read Events
-				Statement stmt9 = connection.createStatement();	
-				String sql9 = "select eventid,type from event";				
-				ResultSet rs9 = stmt9.executeQuery(sql9);
-				
-				ArrayList<Event> allEvents = new ArrayList<Event>();
-				
-				while(rs9.next()) {
-					Event generalEvent = new Event(rs9.getInt(1),rs9.getString(2));
-					allEvents.add(generalEvent);
-				}
-				
-				rs9.close();
-				
-				Statement stmt5 = connection.createStatement();	
-				String sql5 = "select eventid from businessruleevent where ruleid = "+ID;				
-				ResultSet rs5 = stmt5.executeQuery(sql5);
-				
-				while(rs5.next()) {
-					for(Event e : allEvents) {
-						if(e.getID()==rs5.getInt(1)) {
-							cf.addEvent(e);
-						}
-					}
-				}
-				
-				rs5.close();
-				
-				//Read Operators
-				Statement stmt6 = connection.createStatement();	
-				String sql6 = "select operatorid,type from operator";				
-				ResultSet rs6 = stmt6.executeQuery(sql6);
-				
-				ArrayList<Operator> allOperators = new ArrayList<Operator>();
-				
-				while(rs6.next()) {
-					Operator generalOperator = new Operator(rs6.getInt(1),rs6.getString(2));
-					allOperators.add(generalOperator);
-				}
-				
-				rs6.close();
-				
-				Statement stmt7 = connection.createStatement();	
-				String sql7 = "select operatorid from businessruleoperator where ruleid = " + ID;				
-				ResultSet rs7 = stmt7.executeQuery(sql7);
-				
-				while(rs7.next()) {
-					for(Operator o : allOperators) {
-						if(o.getID()==rs7.getInt(1)) {
-							cf.addOperator(o);
-						}
-					}
-					
-				}
-				
-				rs7.close();
-				
-				//Read Values
-				Statement stmt8 = connection.createStatement();	
-				String sql8 = "select comparable from value where ruleid = "+ID;				
-				ResultSet rs8 = stmt8.executeQuery(sql8);
-				
-				while(rs8.next()) {
-					String type = b.getType().getCode();
-					if(type.equals("ALIS") || type.equals("MODI")) {
-						String values[] = rs8.getString(1).split(":");
-						for(String s : values) {
-							Value value = new Value(s);
-							cf.addValue(value);
-						}
-					}
-					else {
-						Value value = new Value(rs8.getString(1));
-						cf.addValue(value);
-					}					
-				}
-				
-				rs8.close();
-				
-			}
-			
-			//Check loaded data
-			/*for(BusinessRule b : allBusinessRules) {
-				System.out.println(b.getName());
-				for(Table t : b.getAllTables()) {
-					System.out.println("\tTable: " + t.getName());
-					for(Column c : t.getAllColumns()) {
-						System.out.println("\tColumn: " + c.getName());
-					}
-				}
-				for(ErrorMessage em : b.getAllErrorMessages()) {
-					System.out.println("\tErrorMessage: " + em.getCode() + " - " + em.getMessage());
-				}
-				for(Event e : b.getConstrainsFacade().getAllEvents()) {
-					System.out.println("\tEvent: " + e.getType());
-				}
-				for(Operator o : b.getConstrainsFacade().getAllOperators()) {
-					System.out.println("\tOperator: " + o.getType());
-				}
-				for(Value v : b.getConstrainsFacade().getAllValues()) {
-					System.out.println("\tValue: " + v.getComparable());
-				}
-				System.out.println();
-			}*/
-			
-			
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return allBusinessRules;
 	}
+	
+	public ArrayList<Table> selectTables(int ID,Connection connection) {
+		ArrayList<Table> allTables = new ArrayList<Table>();
+		try {
+			Statement stmt = connection.createStatement();	
+			String sql = "select tableid,name,position from tab where ruleid = "+ID;				
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				Table tab = new Table(rs.getInt(1),rs.getString(2),rs.getInt(3));
+				tab.setAllColumns(selectColumns(tab.getID(),connection));
+				allTables.add(tab);
+			}
+			
+			rs.close();
+		} catch(SQLException e) {}
+		
+		return allTables;
+	}
+	
+	public ArrayList<Column> selectColumns(int ID,Connection connection) {
+		ArrayList<Column> allColumns = new ArrayList<Column>();
+		try {
+			Statement stmt = connection.createStatement();	
+			String sql = "select name,position from col where tableid = "+ID;				
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				String colCode = rs.getString(1).substring(0, Math.min( rs.getString(1).length(), 3));
+				Column col = new Column(rs.getString(1),colCode,rs.getInt(2));
+				allColumns.add(col);
+			}
+			
+			rs.close();
+		} catch(SQLException e) {}
+		
+		return allColumns;
+	}
+	
+	public ArrayList<ErrorMessage> selectErrorMessages(int ID,Connection connection) {
+		ArrayList<ErrorMessage> allErrorMessages = new ArrayList<ErrorMessage>();
+		try {
+			Statement stmt = connection.createStatement();	
+			String sql = "select code,message from errormessage where ruleid = "+ID;				
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				ErrorMessage em = new ErrorMessage(rs.getString(1),rs.getString(2));
+				allErrorMessages.add(em);
+			}
+			
+			rs.close();
+		} catch(SQLException e) {}
+		return allErrorMessages;
+	}
+	
+	
+	public ArrayList<Event> selectEvents(int ID,Connection connection) {
+		ArrayList<Event> allEvents = new ArrayList<Event>();
+		ArrayList<Event> brEvents = new ArrayList<Event>();
+		try {
+			Statement stmt = connection.createStatement();	
+			String sql = "select eventid,type from event";				
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while(rs.next()) {
+				Event generalEvent = new Event(rs.getInt(1),rs.getString(2));
+				allEvents.add(generalEvent);
+			}
+			
+			rs.close();
+			
+			Statement stmt2 = connection.createStatement();	
+			String sql2 = "select eventid from businessruleevent where ruleid = "+ID;				
+			ResultSet rs2 = stmt2.executeQuery(sql2);	
+
+			while(rs2.next()) {
+				for(Event e : allEvents) {
+					if(e.getID()==rs2.getInt(1)) {
+						brEvents.add(e);
+					}
+				}
+			}
+			
+			rs2.close();
+		} catch(SQLException e) {}
+		
+		return brEvents;
+	}
+	
+	public ArrayList<Operator> selectOperators(int ID,Connection connection) {
+		ArrayList<Operator> allOperators = new ArrayList<Operator>();
+		ArrayList<Operator> brOperators = new ArrayList<Operator>();
+		
+		try {
+			Statement stmt = connection.createStatement();	
+			String sql = "select operatorid,type from operator";			
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while(rs.next()) {
+				Operator generalOperator = new Operator(rs.getInt(1),rs.getString(2));
+				allOperators.add(generalOperator);
+			}
+			
+			rs.close();
+			
+			Statement stmt2 = connection.createStatement();	
+			String sql2 = "select operatorid from businessruleoperator where ruleid = " + ID;				
+			ResultSet rs2 = stmt2.executeQuery(sql2);
+
+			while(rs2.next()) {
+				for(Operator e : allOperators) {
+					if(e.getID()==rs2.getInt(1)) {
+						brOperators.add(e);
+					}
+				}
+			}
+			
+			rs2.close();
+		} catch(SQLException e) {}
+		
+		return brOperators;
+	}
+
+	
+	public ArrayList<Value> selectValues(int ID,String code,Connection connection) {
+		ArrayList<Value> allValues = new ArrayList<Value>();
+		
+		try {
+			Statement stmt = connection.createStatement();	
+			String sql = "select comparable from value where ruleid = "+ID;				
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while(rs.next()) {
+				String type = code;
+				if(type.equals("ALIS") || type.equals("MODI")) {
+					String values[] = rs.getString(1).split(":");
+					for(String s : values) {
+						Value value = new Value(s);
+						allValues.add(value);
+					}
+				}
+				else {
+					Value value = new Value(rs.getString(1));
+					allValues.add(value);
+				}					
+			}
+			
+			rs.close();
+		} catch(SQLException e) {}
+		return allValues;
+	}
+	
 }

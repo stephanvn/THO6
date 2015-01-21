@@ -6,5 +6,5 @@ import domain.definition.BusinessRule;
 
 public interface BusinessRuleDAO {
 	
-	public ArrayList<BusinessRule> fillDomain();
+	public ArrayList<BusinessRule> selectBusinessRules();
 }
