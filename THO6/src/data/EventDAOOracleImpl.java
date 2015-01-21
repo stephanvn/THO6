@@ -13,7 +13,8 @@ public class EventDAOOracleImpl implements EventDAO {
 	public EventDTO getEventByID(int ID) {
 		// TODO Auto-generated method stub
 			factory.getConnection();
-			
+			//statement 
+			factory.closeConnection();
 		return null;
 	}
 

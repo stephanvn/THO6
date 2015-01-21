@@ -4,11 +4,10 @@ import dto.constraints.EventDTO;
 
 public interface EventDAO{
 
-	public static EventDTO getEventByID(int ID) {
+	static EventDTO getEventByID(int iD) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 		
 }
 
