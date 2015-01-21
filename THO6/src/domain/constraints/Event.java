@@ -31,8 +31,8 @@ public class Event {
 				return ev;
 			}
 		}
-		EventDAO.getEventByID(ID);
-		return null;
+		Event e = new Event(EventDAO.getEventByID(ID));
+		return e;
 	}
 	
 	public int getID() {
@@ -46,7 +46,4 @@ public class Event {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
-
 }
