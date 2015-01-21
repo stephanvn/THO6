@@ -12,20 +12,15 @@ import domain.definition.BusinessRule;
 public class TemplateHelper {
 
 	private ST defaultTemplate, attributeRangeRule, attributeCompareRule,
-			attributeListRule;
+			attributeListRule, interEntityCompareRule;
 
 	public TemplateHelper() {
 	}
 
 	public String getDefaultCode(BusinessRule theBusinessRule) {
 		try {
-			Path pathAbsolute = Paths
-					.get("/THO6/templates/defaultTemplate.txt");
-			Path pathBase = Paths.get("/THO6");
-			Path pathRelative = pathBase.relativize(pathAbsolute);
-
 			defaultTemplate = new ST(new String(Files.readAllBytes(Paths
-					.get(pathRelative.toUri()))), '$', '$');
+					.get(getPath("defaultTemplate").toUri()))), '$', '$');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,18 +33,13 @@ public class TemplateHelper {
 	}
 
 	public String getAttributeRangeRuleTemplate(BusinessRule theBusinessRule) {
-		Path pathAbsolute = Paths.get("/THO6/templates/attributeRangeRule.txt");
-		Path pathBase = Paths.get("/THO6");
-		Path pathRelative = pathBase.relativize(pathAbsolute);
-
 		try {
 			attributeRangeRule = new ST(new String(Files.readAllBytes(Paths
-					.get(pathRelative.toUri()))), '$', '$');
+					.get(getPath("attributeRangeRule").toUri()))), '$', '$');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		addAttributeToTemplate(attributeRangeRule, "eventsStringAbb",
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
 		addAttributeToTemplate(attributeRangeRule, "column", theBusinessRule
@@ -64,14 +54,9 @@ public class TemplateHelper {
 	}
 
 	public String getAttributeCompareRuleTemplate(BusinessRule theBusinessRule) {
-		Path pathAbsolute = Paths
-				.get("/THO6/templates/attributeCompareRule.txt");
-		Path pathBase = Paths.get("/THO6");
-		Path pathRelative = pathBase.relativize(pathAbsolute);
-
 		try {
 			attributeCompareRule = new ST(new String(Files.readAllBytes(Paths
-					.get(pathRelative.toUri()))), '$', '$');
+					.get(getPath("attributeCompareRule").toUri()))), '$', '$');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,18 +76,13 @@ public class TemplateHelper {
 	}
 
 	public String getAttributeListRuleTemplate(BusinessRule theBusinessRule) {
-		Path pathAbsolute = Paths.get("/THO6/templates/attributeListRule.txt");
-		Path pathBase = Paths.get("/THO6");
-		Path pathRelative = pathBase.relativize(pathAbsolute);
-
 		try {
 			attributeListRule = new ST(new String(Files.readAllBytes(Paths
-					.get(pathRelative.toUri()))), '$', '$');
+					.get(getPath("attributeRangeRule").toUri()))), '$', '$');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		addAttributeToTemplate(attributeListRule, "eventsStringAbb",
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
 		addAttributeToTemplate(attributeListRule, "column", theBusinessRule
@@ -111,8 +91,18 @@ public class TemplateHelper {
 				.getConstrainsFacade().getAllValuesAsString());
 		addAttributeToTemplate(attributeListRule, "errorMessage",
 				theBusinessRule.getAllErrorMessages().get(0).getMessage());
-
 		return attributeListRule.render();
+	}
+
+	public String getInterEntityCompareRule(BusinessRule theBusinessRule) {
+		try {
+			interEntityCompareRule = new ST(new String(Files.readAllBytes(Paths
+					.get(getPath("interEntityCompareRule").toUri()))), '$', '$');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return interEntityCompareRule.render();
 	}
 
 	public void addAttributeToTemplate(ST template, String attributeName,
@@ -122,5 +112,12 @@ public class TemplateHelper {
 		} catch (Exception e) {
 		}
 		template.add(attributeName, attributeValue);
+	}
+
+	public Path getPath(String type) {
+		Path pathAbsolute = Paths.get("/THO6/templates/" + type + ".txt");
+		Path pathBase = Paths.get("/THO6");
+		Path pathRelative = pathBase.relativize(pathAbsolute);
+		return pathRelative;
 	}
 }

@@ -1,4 +1,3 @@
-begin
  if l_oper in ($eventsStringAbb$)
  then
   l_passed:= :new.$column$ $value$ BETWEEN $value2$;
