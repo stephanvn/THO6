@@ -3,6 +3,9 @@ package domain.constraints;
 import java.util.LinkedList;
 import java.util.List;
 
+import data.EventDAO;
+import dto.constraints.EventDTO;
+
 public class Event {
 	private static List<Event> allEvents = new LinkedList<Event>();
 	
@@ -28,7 +31,7 @@ public class Event {
 				return ev;
 			}
 		}
-		EventDAO.getEventById(ID)
+		EventDAO.getEventByID(ID);
 		return null;
 	}
 	

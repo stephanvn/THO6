@@ -24,6 +24,8 @@ public class DAOFactorySetup {
 		return null;
 	}
 	
+	
+	
 	//Fills domain with all businessRules from database
 	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase(String databaseType){
 		factory = getDAOFactory(databaseType);

@@ -13,7 +13,7 @@ public class DAOFactoryOracle implements DAOFactory {
 	private String URL = "jdbc:oracle:thin:@ondora01.hu.nl:8521:cursus01";
 	private String Username = "tho6_2014_2a_team4";
 	private String Password = "tho6_2014_2a_team4";
-	
+		
 	public Connection getConnection() {
 		try {
 			connection = DriverManager.getConnection(URL, Username, Password);
