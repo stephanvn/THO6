@@ -25,6 +25,8 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		this.factory = factory;
 	}
 	
+	
+	
 	public ArrayList<BusinessRule> selectBusinessRules() {
 		Connection connection = null;
 		connection = factory.getConnection();

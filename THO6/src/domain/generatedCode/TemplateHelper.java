@@ -12,12 +12,13 @@ import domain.definition.BusinessRule;
 public class TemplateHelper {
 
 	private ST defaultTemplate, attributeRangeRule, attributeCompareRule,
-			attributeListRule, interEntityCompareRule;
+			attributeListRule, tupleCompareRule, interEntityCompareRule,
+			entityOtherRule, modifyRule;
 
 	public TemplateHelper() {
 	}
 
-	public String getDefaultCode(BusinessRule theBusinessRule) {
+	public String getDefaultTemplate(BusinessRule theBusinessRule) {
 		try {
 			defaultTemplate = new ST(new String(Files.readAllBytes(Paths
 					.get(getPath("defaultTemplate").toUri()))), '$', '$');
@@ -78,7 +79,7 @@ public class TemplateHelper {
 	public String getAttributeListRuleTemplate(BusinessRule theBusinessRule) {
 		try {
 			attributeListRule = new ST(new String(Files.readAllBytes(Paths
-					.get(getPath("attributeRangeRule").toUri()))), '$', '$');
+					.get(getPath("attributeListRule").toUri()))), '$', '$');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,7 +95,28 @@ public class TemplateHelper {
 		return attributeListRule.render();
 	}
 
-	public String getInterEntityCompareRule(BusinessRule theBusinessRule) {
+	public String getTupleCompareRuleTemplate(BusinessRule theBusinessRule) {
+		try {
+			tupleCompareRule = new ST(new String(Files.readAllBytes(Paths
+					.get(getPath("tupleCompareRule").toUri()))), '$', '$');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		addAttributeToTemplate(tupleCompareRule, "eventsStringAbb",
+				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
+		addAttributeToTemplate(tupleCompareRule, "column1",
+				theBusinessRule.getAllTables().get(0).getAllColumns().get(0).getName());
+		addAttributeToTemplate(tupleCompareRule, "operator",
+				theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getType());
+		addAttributeToTemplate(tupleCompareRule, "column2",
+				theBusinessRule.getAllTables().get(0).getAllColumns().get(1).getName());
+		addAttributeToTemplate(tupleCompareRule, "errorMessage",
+				theBusinessRule.getAllErrorMessages().get(0).getMessage());
+		return tupleCompareRule.render();
+	}
+
+	public String getInterEntityCompareRuleTemplate(BusinessRule theBusinessRule) {
 		try {
 			interEntityCompareRule = new ST(new String(Files.readAllBytes(Paths
 					.get(getPath("interEntityCompareRule").toUri()))), '$', '$');
@@ -103,6 +125,28 @@ public class TemplateHelper {
 			e.printStackTrace();
 		}
 		return interEntityCompareRule.render();
+	}
+
+	public String getEntityOtherRuleTemplate(BusinessRule theBusinessRule) {
+		try {
+			entityOtherRule = new ST(new String(Files.readAllBytes(Paths
+					.get(getPath("attributeRangeRule").toUri()))), '$', '$');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return entityOtherRule.render();
+	}
+
+	public String getModifyRuleTemplate(BusinessRule theBusinessRule) {
+		try {
+			modifyRule = new ST(new String(Files.readAllBytes(Paths
+					.get(getPath("modifyRule").toUri()))), '$', '$');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modifyRule.render();
 	}
 
 	public void addAttributeToTemplate(ST template, String attributeName,

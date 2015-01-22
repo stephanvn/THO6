@@ -108,7 +108,8 @@ public class BusinessRuleControl {
 			try {
 				b.generateCode();
 				fw.write(b.getTheGeneratedCode().getGeneratedCode());
-				//System.out.println(b.getTheGeneratedCode().getGeneratedCode());
+				//Replace "oracleTarget" with other database for other target
+				DAOFactorySetupRef.executeTrigger("oracleTarget", b.getTheGeneratedCode().getGeneratedCode());
 			} catch(Exception e) {}			
 		}
 		fw.close();		
