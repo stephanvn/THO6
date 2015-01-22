@@ -2,15 +2,19 @@ package userinterface;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -20,8 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import application_logic.BusinessRuleControl;
@@ -31,7 +34,7 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private BusinessRuleControl control;
 	private JComboBox<String> cb1;
-	private JPanel panel, contentPane, textPanel;
+	private JPanel bottomPanel, contentPanel, searchPanel;
 	private JScrollPane scrollPane;
 	private JButton btnGenerate, btnSelectAll;
 	private MyTextField txtSearchBusinessRule;
@@ -50,49 +53,54 @@ public class MainFrame extends JFrame {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void createGUI() {
-		checkboxes = new ArrayList<JCheckBox>();
+		checkboxes = new ArrayList<JCheckBox>();	
 
-		contentPane = new JPanel();
-		getContentPane().add(contentPane, BorderLayout.NORTH);
-		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
-
-		textPanel = new JPanel();
-		contentPane.add(textPanel);
-		textPanel.setLayout(new MigLayout("", "[482px]", "[][2px]"));
+		searchPanel = new JPanel();
+		searchPanel.setBackground(Color.decode("#b20b00"));
+		getContentPane().add(searchPanel, BorderLayout.NORTH);
+		searchPanel.setLayout(new MigLayout("", "[241px][][241px]", "[][2px]"));
 
 		txtSearchBusinessRule = new MyTextField();
+		txtSearchBusinessRule.setBorder(BorderFactory.createCompoundBorder(
+				txtSearchBusinessRule.getBorder(), 
+		        BorderFactory.createEmptyBorder(2, 2, 2, 0)));
+		txtSearchBusinessRule.setBackground(Color.decode("#efefef"));
 		txtSearchBusinessRule.setPlaceholder("Search rule");
-		textPanel.add(txtSearchBusinessRule, "cell 0 0,grow");
+		searchPanel.add(txtSearchBusinessRule, "cell 1 0,grow");
 		txtSearchBusinessRule.setColumns(13);
 		txtSearchBusinessRule.addKeyListener(searchOnKey);
 
 		cb1 = new JComboBox(control.getAllBusinessRulesTypeString().toArray());
 		cb1.addActionListener(comboBoxChanged);
-		textPanel.add(cb1, "cell 0 1,grow");
+		searchPanel.add(cb1, "cell 1 1,grow");	
+		
+		contentPanel = new JPanel();
+		contentPanel.setBackground(Color.decode("#efefef"));
+		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));		
 
-		btnSelectAll = new JButton("Select/De-select all");
-		textPanel.add(btnSelectAll, "cell 0 2,grow");
-		btnSelectAll.addActionListener(selectAllButton);
-
-		scrollPane = new JScrollPane(contentPane);
-		scrollPane.setViewportBorder(new TitledBorder(UIManager
-				.getBorder("TitledBorder.border"), "Business Rules Generator",
-				TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		scrollPane
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane = new JScrollPane(contentPanel);
+		scrollPane.setPreferredSize(new Dimension(540,300));
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		panel = new JPanel();
-		panel.setBackground(Color.GRAY);
-		getContentPane().add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new MigLayout("", "[241px][][241px]", "[25px]"));
+		bottomPanel = new JPanel();
+		bottomPanel.setBackground(Color.decode("#b0b0b0"));
+		getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+		bottomPanel.setLayout(new MigLayout("", "[241px][][241px]", "[25px]"));
 
 		btnGenerate = new JButton("Generate");
-		panel.add(btnGenerate, "cell 1 0,alignx center,aligny center");
+		btnGenerate.setBackground(Color.decode("#e3e3e3"));
+		bottomPanel.add(btnGenerate, "cell 1 0,alignx center,aligny center");
 		btnGenerate.addActionListener(generateButton);
+		
+		btnSelectAll = new JButton("Select all");
+		btnSelectAll.setBackground(Color.decode("#e3e3e3"));
+		bottomPanel.add(btnSelectAll, "cell 1 0,alignx center,aligny center");
+		btnSelectAll.addActionListener(selectAllButton);
 
 		setSize(540, 300);
 		setVisible(true);
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		fillBusinessRules("typeSearch");
@@ -113,11 +121,13 @@ public class MainFrame extends JFrame {
 
 	public void refreshBusinessRules(ArrayList<String> al) {
 		for (JCheckBox c : checkboxes) {
-			contentPane.remove(c);
+			contentPanel.remove(c);
 		}
 		for (String s : al) {
 			JCheckBox checkbox = new JCheckBox(s);
-			contentPane.add(checkbox);
+			checkbox.setBorder(new EmptyBorder(10, 10, 10, 10));
+			checkbox.addItemListener(chechkboxChanged);
+			contentPanel.add(checkbox);
 			checkboxes.add(checkbox);
 		}
 	}
@@ -145,24 +155,22 @@ public class MainFrame extends JFrame {
 		}
 	};
 
-	KeyListener searchOnKey = new KeyListener() {
+	KeyAdapter searchOnKey = new KeyAdapter() {
 		@Override
 		public void keyReleased(KeyEvent keyEvent) {
 			fillBusinessRules("stringSearch");
 		}
 
+	};
+	
+	ItemListener chechkboxChanged = new ItemListener() {
 		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void itemStateChanged(ItemEvent e) {
+			JCheckBox c = (JCheckBox) e.getItem();
+			if(!c.isSelected()) {
+				btnSelectAll.setText("Select All");
+			}
+		}		
 	};
 
 	ActionListener selectAllButton = new ActionListener() {
@@ -177,10 +185,12 @@ public class MainFrame extends JFrame {
 				for (JCheckBox c : checkboxes) {
 					c.setSelected(true);
 				}
+				btnSelectAll.setText("Deselect all");
 			} else {
 				for (JCheckBox c : checkboxes) {
 					c.setSelected(false);
 				}
+				btnSelectAll.setText("Select all");
 			}
 		}
 	};
@@ -199,7 +209,7 @@ public class MainFrame extends JFrame {
 				fc.setDialogTitle("Choose a save location");
 				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fc.setAcceptAllFileFilterUsed(false);
-				int returnVal = fc.showOpenDialog(contentPane);
+				int returnVal = fc.showOpenDialog(contentPanel);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
 					try {
