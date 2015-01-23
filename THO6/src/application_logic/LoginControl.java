@@ -14,13 +14,7 @@ public class LoginControl {
 	public LoginControl() {
 		new LoginFrame(this);
 	}
-	
-	public boolean isUser() {
-		boolean b = false;
-		
-		return b;
-	}
-	
+
 	public boolean checkUser(String username,String password) {
 		boolean b = false;		
 		//change oracle for other db type
@@ -30,7 +24,5 @@ public class LoginControl {
 		}
 		return b;
 	}
-	
-	
 
 }
