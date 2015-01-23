@@ -45,6 +45,10 @@ public class DAOFactorySetup {
 		return factory.getAllBusinessRulesFromDatabase(username);
 	}
 	
+	public void updateToolModified(int ruleID){
+		factory.updateToolModified(ruleID);
+	}
+	
 	public boolean selectUser(String username,String password, String db) {
 		factory = getDAOFactory(db);
 		return factory.selectUser(username,password);

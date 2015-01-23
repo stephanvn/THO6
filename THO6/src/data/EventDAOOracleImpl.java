@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import domain.userManagement.BRGUser;
 import dto.constraints.EventDTO;
 
 public class EventDAOOracleImpl implements EventDAO {

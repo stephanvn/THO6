@@ -51,14 +51,21 @@ public class DAOFactoryOracle implements DAOFactory {
 	@Override
 	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase(String username) {
 		ArrayList<BusinessRule> rules = null;
-		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this,username);
-		rules = bdao.selectBusinessRules();
+		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this);
+		rules = bdao.selectBusinessRules(username);
 		return rules;
 	}
 	
 	public boolean selectUser(String username,String password) {
 		LoginDAO ldao = new LoginDAO(this,username,password);
 		return ldao.selectUser();
+	}
+
+	@Override
+	public void updateToolModified(int ruleID) {
+		// TODO Auto-generated method stub
+		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this);
+		bdao.modified(ruleID);
 	}
 
 }

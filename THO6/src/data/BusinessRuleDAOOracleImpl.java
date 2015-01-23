@@ -20,16 +20,14 @@ import domain.userManagement.BRGUser;
 public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	
 	private DAOFactory factory;
-	private String username;
 	
-	public BusinessRuleDAOOracleImpl(DAOFactory factory,String username) {
+	public BusinessRuleDAOOracleImpl(DAOFactory factory) {
 		this.factory = factory;
-		this.username = username;
 	}
 	
 	
 	
-	public ArrayList<BusinessRule> selectBusinessRules() {
+	public ArrayList<BusinessRule> selectBusinessRules(String username) {
 		Connection connection = null;
 		connection = factory.getConnection();
 		ArrayList<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
@@ -40,7 +38,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			 String sql1 = "select rule.ruleid,u.name,brt.name,brt.code from brguser u, businessruletype brt, businessrule rule" +
 			" where u.userid = rule.userid" +
 			" and brt.typeid = rule.typeid" +
-			" and u.name = '" + this.username + "'" +
+			" and u.name = '" + username + "'" +
 			" and rule.modified = 1";
 			 
 			ResultSet rs1 = stmt1.executeQuery(sql1);
@@ -224,4 +222,18 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		return allValues;
 	}
 	
+	public void modified(int ruleID){
+		String modifiedQuery = "UPDATE BUSINESSRULE " + "SET MODIFIED=0 "
+				+ "WHERE RULEID = " + ruleID;
+		Connection c = factory.getConnection();
+		try {
+			Statement stmt = c.createStatement();
+			stmt.executeQuery(modifiedQuery);			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		factory.closeConnection();
+		
+	}
 }
