@@ -81,6 +81,7 @@ public class MainFrame extends JFrame {
 		scrollPane = new JScrollPane(contentPanel);
 		scrollPane.setPreferredSize(new Dimension(540,300));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		bottomPanel = new JPanel();

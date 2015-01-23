@@ -41,10 +41,13 @@ public class DAOFactorySetup {
 	}
 
 	// Fills domain with all businessRules from database
-	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase(
-			String databaseType) {
-		factory = getDAOFactory(databaseType);
-		return factory.getAllBusinessRulesFromDatabase();
+	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase(String username) {
+		return factory.getAllBusinessRulesFromDatabase(username);
+	}
+	
+	public boolean selectUser(String username,String password, String db) {
+		factory = getDAOFactory(db);
+		return factory.selectUser(username,password);
 	}
 
 }

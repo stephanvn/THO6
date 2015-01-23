@@ -20,9 +20,11 @@ import domain.userManagement.BRGUser;
 public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 	
 	private DAOFactory factory;
+	private String username;
 	
-	public BusinessRuleDAOOracleImpl(DAOFactory factory) {
+	public BusinessRuleDAOOracleImpl(DAOFactory factory,String username) {
 		this.factory = factory;
+		this.username = username;
 	}
 	
 	
@@ -37,8 +39,9 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			//Read Business Rule Names
 			 String sql1 = "select rule.ruleid,u.name,brt.name,brt.code from brguser u, businessruletype brt, businessrule rule" +
 			" where u.userid = rule.userid" +
-			" and brt.typeid = rule.typeid";
-			
+			" and brt.typeid = rule.typeid" +
+			" and u.name = '" + this.username + "'";
+			 
 			ResultSet rs1 = stmt1.executeQuery(sql1);
 
 			while(rs1.next()){

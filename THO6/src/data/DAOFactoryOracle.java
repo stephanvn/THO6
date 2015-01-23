@@ -13,7 +13,7 @@ public class DAOFactoryOracle implements DAOFactory {
 	private String URL = "jdbc:oracle:thin:@ondora01.hu.nl:8521:cursus01";
 	private String Username = "tho6_2014_2a_team4";
 	private String Password = "tho6_2014_2a_team4";
-
+	
 	public Connection getConnection() {
 		try {
 			connection = DriverManager.getConnection(URL, Username, Password);
@@ -49,11 +49,16 @@ public class DAOFactoryOracle implements DAOFactory {
 	}
 
 	@Override
-	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase() {
+	public ArrayList<BusinessRule> getAllBusinessRulesFromDatabase(String username) {
 		ArrayList<BusinessRule> rules = null;
-		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this);
+		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this,username);
 		rules = bdao.selectBusinessRules();
 		return rules;
+	}
+	
+	public boolean selectUser(String username,String password) {
+		LoginDAO ldao = new LoginDAO(this,username,password);
+		return ldao.selectUser();
 	}
 
 }
