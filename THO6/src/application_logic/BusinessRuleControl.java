@@ -19,14 +19,6 @@ public class BusinessRuleControl {
 	private DAOFactorySetup DAOFactorySetupRef = DAOFactorySetup.getInstance();
 	private static BusinessRuleControl instance = null;
 	
-	public static void main(String[] args) {
-		BusinessRuleControl brc = BusinessRuleControl.getInstance();
-		brc.fillDomainFromDatabase();
-		
-		new MainFrame(brc);
-		//System.out.println(brc.getAllBusinessRules().get(10).getConstrainsFacade().getAllValuesAsString());
-	}
-	
 	public static synchronized BusinessRuleControl getInstance(){
 		if (instance == null){
 			instance = new BusinessRuleControl();
@@ -120,9 +112,9 @@ public class BusinessRuleControl {
 		}
 	}	
 	
-	public void fillDomainFromDatabase(){
+	public void fillDomainFromDatabase(String username){
 		//Replace "oracle" with other database, or make it an option on userInterface so user can choose
-		allBusinessRules = DAOFactorySetupRef.getAllBusinessRulesFromDatabase("oracle");
+		allBusinessRules = DAOFactorySetupRef.getAllBusinessRulesFromDatabase(username);
 		if(allBusinessRules!=null) {
 			allBusinessRuleTypesString.add("All");
 			for(BusinessRule br : allBusinessRules) {
@@ -134,5 +126,6 @@ public class BusinessRuleControl {
 			List<String> subList = allBusinessRuleTypesString.subList(1, allBusinessRuleTypesString.size());
 			Collections.sort(subList);
 		}
+		new MainFrame(this);
 	}
 }

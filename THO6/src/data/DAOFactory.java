@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import domain.definition.BusinessRule;
 
 public interface DAOFactory {
-	ArrayList<BusinessRule> getAllBusinessRulesFromDatabase();
+	ArrayList<BusinessRule> getAllBusinessRulesFromDatabase(String u);
 	public Connection getConnection();
 	public void closeConnection();
+	public boolean selectUser(String u, String p);
 }
