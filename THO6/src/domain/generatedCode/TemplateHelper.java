@@ -46,7 +46,7 @@ public class TemplateHelper {
 		addAttributeToTemplate(attributeRangeRule, "column", theBusinessRule
 				.getAllTables().get(0).getTargetColumn());
 		addAttributeToTemplate(attributeRangeRule, "operator", theBusinessRule
-				.getAllTables().get(0).getTargetColumn());
+				.getConstrainsFacade().getAllOperators().get(0).getType());
 		addAttributeToTemplate(attributeRangeRule, "value", theBusinessRule
 				.getConstrainsFacade().getAllValues().get(0).getComparable());
 		addAttributeToTemplate(attributeRangeRule, "value2", theBusinessRule

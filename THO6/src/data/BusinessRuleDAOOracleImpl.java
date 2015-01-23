@@ -170,7 +170,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while(rs.next()) {
-				Operator generalOperator = new Operator(rs.getInt(1),rs.getString(2));
+				Operator generalOperator = new Operator(rs.getInt(1),rs.getString(2).toUpperCase());
 				allOperators.add(generalOperator);
 			}
 			
