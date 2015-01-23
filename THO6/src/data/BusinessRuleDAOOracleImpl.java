@@ -40,7 +40,8 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			 String sql1 = "select rule.ruleid,u.name,brt.name,brt.code from brguser u, businessruletype brt, businessrule rule" +
 			" where u.userid = rule.userid" +
 			" and brt.typeid = rule.typeid" +
-			" and u.name = '" + this.username + "'";
+			" and u.name = '" + this.username + "'" +
+			" and rule.modified = 0";
 			 
 			ResultSet rs1 = stmt1.executeQuery(sql1);
 
