@@ -45,6 +45,8 @@ public class TemplateHelper {
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
 		addAttributeToTemplate(attributeRangeRule, "column", theBusinessRule
 				.getAllTables().get(0).getTargetColumn());
+		addAttributeToTemplate(attributeRangeRule, "operator", theBusinessRule
+				.getAllTables().get(0).getTargetColumn());
 		addAttributeToTemplate(attributeRangeRule, "value", theBusinessRule
 				.getConstrainsFacade().getAllValues().get(0).getComparable());
 		addAttributeToTemplate(attributeRangeRule, "value2", theBusinessRule
@@ -86,6 +88,8 @@ public class TemplateHelper {
 		}
 		addAttributeToTemplate(attributeListRule, "eventsStringAbb",
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
+		addAttributeToTemplate(attributeListRule, "operator", theBusinessRule
+				.getConstrainsFacade().getAllOperators().get(0).getType());
 		addAttributeToTemplate(attributeListRule, "column", theBusinessRule
 				.getAllTables().get(0).getAllColumns().get(0).getName());
 		addAttributeToTemplate(attributeListRule, "values", theBusinessRule
@@ -105,12 +109,12 @@ public class TemplateHelper {
 		}
 		addAttributeToTemplate(tupleCompareRule, "eventsStringAbb",
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
-		addAttributeToTemplate(tupleCompareRule, "column1",
-				theBusinessRule.getAllTables().get(0).getAllColumns().get(0).getName());
-		addAttributeToTemplate(tupleCompareRule, "operator",
-				theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getType());
-		addAttributeToTemplate(tupleCompareRule, "column2",
-				theBusinessRule.getAllTables().get(0).getAllColumns().get(1).getName());
+		addAttributeToTemplate(tupleCompareRule, "column1", theBusinessRule
+				.getAllTables().get(0).getAllColumns().get(0).getName());
+		addAttributeToTemplate(tupleCompareRule, "operator", theBusinessRule
+				.getConstrainsFacade().getAllOperators().get(0).getType());
+		addAttributeToTemplate(tupleCompareRule, "column2", theBusinessRule
+				.getAllTables().get(0).getAllColumns().get(1).getName());
 		addAttributeToTemplate(tupleCompareRule, "errorMessage",
 				theBusinessRule.getAllErrorMessages().get(0).getMessage());
 		return tupleCompareRule.render();
@@ -135,6 +139,8 @@ public class TemplateHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		addAttributeToTemplate(entityOtherRule, "code", theBusinessRule
+				.getAllErrorMessages().get(0).getMessage());
 		return entityOtherRule.render();
 	}
 
