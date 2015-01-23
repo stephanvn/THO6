@@ -25,37 +25,40 @@ public class GeneratedCode {
 		if (theBusinessRule.getType().getName().equals("Attribute Range Rule")) {
 			typeSpecificCode = th
 					.getAttributeRangeRuleTemplate(theBusinessRule);
+			generatedCode = defaultCode + typeSpecificCode;
 		}
 
 		if (theBusinessRule.getType().getName()
 				.equals("Attribute Compare Rule")) {
 			typeSpecificCode = th
 					.getAttributeCompareRuleTemplate(theBusinessRule);
+			generatedCode = defaultCode + typeSpecificCode;
 		}
 
 		if (theBusinessRule.getType().getName().equals("Attribute List Rule")) {
 			typeSpecificCode = th.getAttributeListRuleTemplate(theBusinessRule);
+			generatedCode = defaultCode + typeSpecificCode;
 		}
 
 		if (theBusinessRule.getType().getName().equals("Tuple Compare Rule")) {
 			typeSpecificCode = th.getTupleCompareRuleTemplate(theBusinessRule);
+			generatedCode = defaultCode + typeSpecificCode;
 		}
 
 		if (theBusinessRule.getType().getName()
 				.equals("interEntityCompareRule")) {
 			typeSpecificCode = th
 					.getInterEntityCompareRuleTemplate(theBusinessRule);
+			generatedCode = defaultCode + typeSpecificCode;
 		}
 
 		if (theBusinessRule.getType().getName().equals("Entity Other Rule")) {
 			typeSpecificCode = th.getEntityOtherRuleTemplate(theBusinessRule);
+			generatedCode = typeSpecificCode;
 		}
 
 		if (theBusinessRule.getType().getName().equals("Modify Rule")) {
 			typeSpecificCode = th.getModifyRuleTemplate(theBusinessRule);
-		}
-
-		if (typeSpecificCode != null) {
 			generatedCode = defaultCode + typeSpecificCode;
 		}
 		if (typeSpecificCode == null) {

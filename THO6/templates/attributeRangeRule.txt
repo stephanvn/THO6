@@ -1,6 +1,6 @@
  if l_oper in ($eventsStringAbb$)
  then
-  l_passed := :new.$column$ BETWEEN $value$ and $value2$;
+  l_passed := :new.$column$ $operator$ $value$ and $value2$;
   if not l_passed
   then
    l_error_stack := l_error_stack || '$errorMessage$'
