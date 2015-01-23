@@ -45,6 +45,7 @@ public class LoginFrame extends JFrame {
 		panel.add(btnLogin, "cell 1 2, grow");
 		
 		setSize(400,150);
+		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -100,6 +100,8 @@ public class MainFrame extends JFrame {
 		btnSelectAll.addActionListener(selectAllButton);
 
 		setSize(540, 300);
+		pack();
+		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -117,13 +119,21 @@ public class MainFrame extends JFrame {
 		} else if (method.equals("typeSearch")) {
 			this.searchByType(cb1.getSelectedItem().toString());
 		}
+		btnSelectAll.setText("Select All");
 		pack();
 	}
 
 	public void refreshBusinessRules(ArrayList<String> al) {
+		ArrayList<JCheckBox> unselectedRules = new ArrayList<JCheckBox>();
 		for (JCheckBox c : checkboxes) {
 			contentPanel.remove(c);
+			unselectedRules.add(c);
 		}
+		
+		for(JCheckBox c : unselectedRules) {
+			checkboxes.remove(c);
+		}
+		
 		for (String s : al) {
 			JCheckBox checkbox = new JCheckBox(s);
 			checkbox.setBorder(new EmptyBorder(10, 10, 10, 10));
