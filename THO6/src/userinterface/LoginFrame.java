@@ -16,7 +16,8 @@ import application_logic.LoginControl;
 public class LoginFrame extends JFrame {
 	
 	private JPanel panel;
-	private MyTextField txtUsername,txtPassword;
+	private MyTextField txtUsername;
+	private MyPasswordField txtPassword;
 	private JButton btnLogin;
 	private LoginControl control;
 	
@@ -35,7 +36,7 @@ public class LoginFrame extends JFrame {
 		txtUsername.setPlaceholder("Username");
 		panel.add(txtUsername, "cell 1 0, grow");
 		
-		txtPassword = new MyTextField();
+		txtPassword = new MyPasswordField();
 		txtPassword.setPlaceholder("Password");
 		panel.add(txtPassword, "cell 1 1, grow");
 		
@@ -51,8 +52,8 @@ public class LoginFrame extends JFrame {
 	
 	ActionListener loginButton = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if(!txtUsername.getText().equals("") && !txtPassword.getText().equals("")) {
-				if(!control.checkUser(txtUsername.getText(),txtPassword.getText())) {
+			if(!txtUsername.getText().equals("") && !String.valueOf(txtPassword.getPassword()).equals("")) {
+				if(!control.checkUser(txtUsername.getText(),String.valueOf(txtPassword.getPassword()))) {
 					JOptionPane.showMessageDialog(null,
 							"User not found!");
 				}
