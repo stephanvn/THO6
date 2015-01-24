@@ -1,5 +1,5 @@
-/Main.class
-/application_logic
-/data
-/domain
-/userinterface
+/application_logic/
+/data/
+/domain/
+/dto/
+/userinterface/
