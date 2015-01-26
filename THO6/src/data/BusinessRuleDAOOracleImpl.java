@@ -72,7 +72,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		try {
 			Statement stmt = connection.createStatement();
 			String sql = "select tableid,name,position from tab where ruleid = "
-					+ ID;
+					+ ID + " order by position";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
@@ -93,7 +93,7 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 		ArrayList<Column> allColumns = new ArrayList<Column>();
 		try {
 			Statement stmt = connection.createStatement();
-			String sql = "select name,position from col where tableid = " + ID;
+			String sql = "select name,position from col where tableid = " + ID + " order by position";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {

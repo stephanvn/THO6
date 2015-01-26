@@ -185,6 +185,7 @@ public class TemplateHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		addAttributeToTemplate(modifyRule, "brName",
 				theBusinessRule.getTriggerName());
 		addAttributeToTemplate(modifyRule, "targetTable",
@@ -199,8 +200,8 @@ public class TemplateHelper {
 				.getAllTables().get(0).getName());
 		addAttributeToTemplate(modifyRule, "t2column2", theBusinessRule
 				.getAllTables().get(1).getAllColumns().get(1).getName());
-		addAttributeToTemplate(modifyRule, "t1column2", theBusinessRule
-				.getAllTables().get(0).getAllColumns().get(1).getName());
+		addAttributeToTemplate(modifyRule, "t1column1", theBusinessRule
+				.getAllTables().get(0).getAllColumns().get(0).getName());
 		addAttributeToTemplate(modifyRule, "operator", theBusinessRule
 				.getConstrainsFacade().getAllOperators().get(0).getType());
 		addAttributeToTemplate(modifyRule, "values", theBusinessRule
