@@ -88,8 +88,12 @@ public class TemplateHelper {
 		}
 		addAttributeToTemplate(attributeListRule, "eventsStringAbb",
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
-		addAttributeToTemplate(attributeListRule, "operator", theBusinessRule
-				.getConstrainsFacade().getAllOperators().get(0).getType());
+		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getID() == 8) {
+			addAttributeToTemplate(attributeListRule, "operator", "IN");
+		}
+		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getID() == 9) {
+			addAttributeToTemplate(attributeListRule, "operator", "NOT IN");
+		}
 		addAttributeToTemplate(attributeListRule, "column", theBusinessRule
 				.getAllTables().get(0).getAllColumns().get(0).getName());
 		addAttributeToTemplate(attributeListRule, "values", theBusinessRule
@@ -151,7 +155,8 @@ public class TemplateHelper {
 				theBusinessRule.getAllTables().get(0).getAllColumns().get(0)
 						.getName());
 		addAttributeToTemplate(interEntityCompareRule, "operator",
-				theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getType());
+				theBusinessRule.getConstrainsFacade().getAllOperators().get(0)
+						.getType());
 		addAttributeToTemplate(interEntityCompareRule, "errorMessage",
 				theBusinessRule.getAllErrorMessages().get(0).getMessage());
 		return interEntityCompareRule.render();

@@ -48,7 +48,6 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				BusinessRuleType brt = new BusinessRuleType(rs1.getString(3),rs1.getString(4));
 				
 				BusinessRule br = new BusinessRule(rs1.getInt(1)); 
-				
 				br.setTheBRGUser(user);
 				br.setType(brt);
 				br.setAllTables(selectTables(br.getID(),connection));
@@ -57,10 +56,13 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 				cf.setAllEvents(selectEvents(br.getID(),connection));
 				cf.setAllOperators(selectOperators(br.getID(),connection));
 				cf.setAllValues(selectValues(br.getID(),br.getType().getCode(),connection));
-				
+				System.out.println(br.getName());
 				allBusinessRules.add(br);
 			}
-			
+			//test
+			for(BusinessRule b : allBusinessRules){
+					System.out.println(b.getTriggerName());	
+			}
 			rs1.close();
 		}
 		catch(SQLException e) {

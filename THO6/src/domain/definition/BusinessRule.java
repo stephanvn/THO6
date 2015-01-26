@@ -124,7 +124,7 @@ public class BusinessRule {
 	}
 	
 	public void generateTriggerName(){
-		triggerName = "BRG_" + theBRGUser.getCode() + "_" + allTables.get(0).getCode() + "_trigger";
+		triggerName = "BRG_" + theBRGUser.getCode() + "_" + allTables.get(0).getCode() + "_" + allTables.get(0).getTargetColumn() + "_trigger";
 	}
 
 	public void generateCode() {
