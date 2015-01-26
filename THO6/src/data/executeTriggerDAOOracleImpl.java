@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class executeTriggerDAOOracleImpl implements ExecuteTriggerDAO {
 
@@ -13,16 +14,17 @@ public class executeTriggerDAOOracleImpl implements ExecuteTriggerDAO {
 	}
 
 	@Override
-	public void executeTrigger(String triggerCode) {
+	public void executeTrigger(ArrayList<String> triggerCode) {
 		// TODO Auto-generated method stub
 		Connection connection = null;
 		connection = targetFactory.getConnection();
-
-		try {
-			Statement stmt = connection.createStatement();
-			stmt.executeQuery(triggerCode);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		for (String s : triggerCode) {
+			try {
+				Statement stmt = connection.createStatement();
+				stmt.executeQuery(s);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		targetFactory.closeConnection();
 	}

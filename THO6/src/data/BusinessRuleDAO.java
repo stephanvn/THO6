@@ -7,5 +7,5 @@ import domain.definition.BusinessRule;
 public interface BusinessRuleDAO {
 	
 	public ArrayList<BusinessRule> selectBusinessRules(String username);
-	public void modified(int ruleID);
+	public void modified(ArrayList<Integer> ruleID);
 }

@@ -62,7 +62,7 @@ public class DAOFactoryOracle implements DAOFactory {
 	}
 
 	@Override
-	public void updateToolModified(int ruleID) {
+	public void updateToolModified(ArrayList<Integer> ruleID) {
 		// TODO Auto-generated method stub
 		BusinessRuleDAO bdao = new BusinessRuleDAOOracleImpl(this);
 		bdao.modified(ruleID);

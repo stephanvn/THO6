@@ -10,6 +10,6 @@ public interface DAOFactory {
 	public Connection getConnection();
 	public void closeConnection();
 	public boolean selectUser(String u, String p);
-	public void updateToolModified(int ruleID);
+	public void updateToolModified(ArrayList<Integer> ruleID);
 }
 

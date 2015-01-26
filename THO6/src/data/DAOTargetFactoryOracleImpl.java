@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DAOTargetFactoryOracleImpl implements DAOTargetFactory {
 
@@ -48,9 +49,10 @@ public class DAOTargetFactoryOracleImpl implements DAOTargetFactory {
 	}
 
 	@Override
-	public void executeTrigger(String trigger) {
+	public void executeTrigger(ArrayList<String> trigger) {
 		// TODO Auto-generated method stub
 		ExecuteTriggerDAO etDAO = new executeTriggerDAOOracleImpl(this);
+		
 		etDAO.executeTrigger(trigger);
 	}
 }

@@ -35,7 +35,7 @@ public class DAOFactorySetup {
 		return null;
 	}
 	
-	public void executeTrigger(String targetDatabaseType, String trigger){
+	public void executeTrigger(String targetDatabaseType, ArrayList<String> trigger){
 		targetFactory = getDAOTargetFactory(targetDatabaseType);
 		targetFactory.executeTrigger(trigger);
 	}
@@ -45,7 +45,7 @@ public class DAOFactorySetup {
 		return factory.getAllBusinessRulesFromDatabase(username);
 	}
 	
-	public void updateToolModified(int ruleID){
+	public void updateToolModified(ArrayList<Integer> ruleID){
 		factory.updateToolModified(ruleID);
 	}
 	

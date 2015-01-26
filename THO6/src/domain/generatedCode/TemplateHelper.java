@@ -88,10 +88,12 @@ public class TemplateHelper {
 		}
 		addAttributeToTemplate(attributeListRule, "eventsStringAbb",
 				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
-		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getID() == 8) {
+		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0)
+				.getID() == 8) {
 			addAttributeToTemplate(attributeListRule, "operator", "IN");
 		}
-		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getID() == 9) {
+		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0)
+				.getID() == 9) {
 			addAttributeToTemplate(attributeListRule, "operator", "NOT IN");
 		}
 		addAttributeToTemplate(attributeListRule, "column", theBusinessRule

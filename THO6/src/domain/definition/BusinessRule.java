@@ -31,13 +31,13 @@ public class BusinessRule {
 		return constraintsFacade;
 	}
 
-	public String getTriggerName(){
-		if(triggerName == null){
+	public String getTriggerName() {
+		if (triggerName == null) {
 			generateTriggerName();
 		}
 		return triggerName;
 	}
-	
+
 	public int getID() {
 		return ID;
 	}
@@ -122,9 +122,12 @@ public class BusinessRule {
 		}
 		return b;
 	}
-	
-	public void generateTriggerName(){
-		triggerName = "BRG_" + theBRGUser.getCode() + "_" + allTables.get(0).getCode() + "_" + allTables.get(0).getTargetColumn() + "_trigger";
+
+	public void generateTriggerName() {
+		triggerName = "BRG_" + theBRGUser.getCode() + "_"
+				+ allTables.get(0).getCode() + "_"
+				+ allTables.get(0).getAllColumns().get(0).getCode()
+				+ "_trigger";
 	}
 
 	public void generateCode() {

@@ -104,14 +104,16 @@ public class BusinessRuleControl {
 		FileWriter fw = null; 
 		String fileName = file+"\\triggers_" + now.getTimeInMillis() +".txt";
 		fw = new FileWriter(fileName);
+		ArrayList<String>generatedCodes = new ArrayList<String>();
+		ArrayList<Integer>generatedCodesID = new ArrayList<Integer>();
 		for(String s : list) {
 			BusinessRule b = searchBusinessRule(s);
 			try {
 				b.generateCode();
 				fw.write(b.getTheGeneratedCode().getGeneratedCode());
+				generatedCodes.add(b.getTheGeneratedCode().getGeneratedCode());
+				generatedCodesID.add(b.getID());
 				//Replace "oracleTarget" with other database for other target
-				DAOFactorySetupRef.executeTrigger("oracleTarget", b.getTheGeneratedCode().getGeneratedCode());
-				DAOFactorySetupRef.updateToolModified(b.getID());
 			} catch(Exception e) {}			
 		}
 		fw.close();		
@@ -120,6 +122,8 @@ public class BusinessRuleControl {
 		if(savedFile.length()==0) {
 			savedFile.delete();
 		}
+		DAOFactorySetupRef.executeTrigger("oracleTarget", generatedCodes);
+		DAOFactorySetupRef.updateToolModified(generatedCodesID);
 	}	
 	
 	public void fillDomainFromDatabase(){
