@@ -1,3 +1,0 @@
-- Triggers opslaan in DB
-- MainFrame
-- Code genereren en opslaan in DB
