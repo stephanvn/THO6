@@ -128,6 +128,30 @@ public class TemplateHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		addAttributeToTemplate(interEntityCompareRule, "brName",
+				theBusinessRule.getName());
+		addAttributeToTemplate(interEntityCompareRule, "targetTable",
+				theBusinessRule.getTargetTableName());
+		addAttributeToTemplate(interEntityCompareRule, "table2",
+				theBusinessRule.getAllTables().get(1).getName());
+		addAttributeToTemplate(interEntityCompareRule, "t2column1",
+				theBusinessRule.getAllTables().get(1).getAllColumns().get(0)
+						.getName());
+		addAttributeToTemplate(interEntityCompareRule, "eventsStringAbb",
+				theBusinessRule.getConstrainsFacade().getEventsStringAbb());
+		addAttributeToTemplate(interEntityCompareRule, "table1",
+				theBusinessRule.getTargetTableName());
+		addAttributeToTemplate(interEntityCompareRule, "t1column2",
+				theBusinessRule.getAllTables().get(0).getAllColumns().get(1)
+						.getName());
+		addAttributeToTemplate(interEntityCompareRule, "t2column2",
+				theBusinessRule.getAllTables().get(1).getAllColumns().get(1)
+						.getName());
+		addAttributeToTemplate(interEntityCompareRule, "t1column1",
+				theBusinessRule.getAllTables().get(0).getAllColumns().get(0)
+						.getName());
+		addAttributeToTemplate(interEntityCompareRule, "errorMessage",
+				theBusinessRule.getAllErrorMessages().get(0).getMessage());
 		return interEntityCompareRule.render();
 	}
 

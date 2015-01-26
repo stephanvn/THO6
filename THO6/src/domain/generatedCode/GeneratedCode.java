@@ -46,10 +46,10 @@ public class GeneratedCode {
 		}
 
 		if (theBusinessRule.getType().getName()
-				.equals("interEntityCompareRule")) {
+				.equals("Inter-entity Compare Rule")) {
 			typeSpecificCode = th
 					.getInterEntityCompareRuleTemplate(theBusinessRule);
-			generatedCode = defaultCode + typeSpecificCode;
+			generatedCode = typeSpecificCode;
 		}
 
 		if (theBusinessRule.getType().getName().equals("Entity Other Rule")) {
