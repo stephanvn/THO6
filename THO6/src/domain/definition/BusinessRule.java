@@ -94,7 +94,10 @@ public class BusinessRule {
 	}
 
 	public String getTargetTableName() {
-		return allTables.get(0).getName();
+		if(allTables.size() > 0) {
+			return allTables.get(0).getName();
+		}
+		return null;
 	}
 
 	public void setAllTables(ArrayList<Table> allTables) {
@@ -123,11 +126,13 @@ public class BusinessRule {
 		return b;
 	}
 
-	public void generateTriggerName() {
-		triggerName = "BRG_" + theBRGUser.getCode() + "_"
-				+ allTables.get(0).getCode() + "_"
-				+ allTables.get(0).getAllColumns().get(0).getCode()
-				+ "_trigger";
+	public void generateTriggerName() {		
+		triggerName = "BRG_" + theBRGUser.getCode() + "_";
+		if(!type.getCode().equals("EOTH")) {
+			triggerName += allTables.get(0).getCode() + "_"
+			+ allTables.get(0).getAllColumns().get(0).getCode();
+		}
+		triggerName	+= "_trigger";
 	}
 
 	public void generateCode() {

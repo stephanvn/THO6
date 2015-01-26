@@ -114,7 +114,7 @@ public class BusinessRuleControl {
 				generatedCodes.add(b.getTheGeneratedCode().getGeneratedCode());
 				generatedCodesID.add(b.getID());
 				//Replace "oracleTarget" with other database for other target
-			} catch(Exception e) {}			
+			} catch(Exception e) {e.printStackTrace();}			
 		}
 		fw.close();		
 		

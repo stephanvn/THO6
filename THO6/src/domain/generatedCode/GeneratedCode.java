@@ -51,10 +51,12 @@ public class GeneratedCode {
 					.getInterEntityCompareRuleTemplate(theBusinessRule);
 			generatedCode = typeSpecificCode;
 		}
-
+		
+		System.out.println(theBusinessRule.getType().getName());
 		if (theBusinessRule.getType().getName().equals("Entity Other Rule")) {
 			typeSpecificCode = th.getEntityOtherRuleTemplate(theBusinessRule);
 			generatedCode = typeSpecificCode;
+			System.out.println(generatedCode);
 		}
 
 		if (theBusinessRule.getType().getName().equals("Modify Rule")) {
