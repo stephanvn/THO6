@@ -15,6 +15,7 @@ public class BusinessRule {
 	private BusinessRuleType type;
 	private BRGUser theBRGUser;
 	private ConstraintsFacade constraintsFacade;
+	private String triggerName;
 
 	private ArrayList<ErrorMessage> allErrorMessages;
 	private ArrayList<Table> allTables;
@@ -30,6 +31,13 @@ public class BusinessRule {
 		return constraintsFacade;
 	}
 
+	public String getTriggerName(){
+		if(triggerName == null){
+			generateTriggerName();
+		}
+		return triggerName;
+	}
+	
 	public int getID() {
 		return ID;
 	}
@@ -113,6 +121,10 @@ public class BusinessRule {
 			b = false;
 		}
 		return b;
+	}
+	
+	public void generateTriggerName(){
+		triggerName = "BRG_" + theBRGUser.getCode() + "_" + allTables.get(0).getCode() + "_trigger";
 	}
 
 	public void generateCode() {

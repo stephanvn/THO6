@@ -135,8 +135,12 @@ public class BusinessRuleDAOOracleImpl implements BusinessRuleDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while(rs.next()) {
-				Event generalEvent = new Event(rs.getInt(1),rs.getString(2));
-				allEvents.add(generalEvent);
+				String s = rs.getString(2);
+				String[] parts = s.split(":");
+				for(int i = 0;i<parts.length;i++){
+					Event e = new Event(rs.getInt(1),parts[i]);
+					allEvents.add(e);
+				}
 			}
 			
 			rs.close();
