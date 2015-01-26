@@ -23,7 +23,7 @@ begin
   select $table2$.$t2column1$ into l_value
   from $table1$, $table2$
   where $table1$.$t1column2$ = $table2$.$t2column2$;
-  l_passed := $table1$.:new.$t1column1$ $operator$ l_value;
+  l_passed := :new.$t1column1$ $operator$ l_value;
   if not l_passed
   then
    l_error_stack := l_error_stack || '$errorMessage$';

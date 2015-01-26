@@ -3,7 +3,7 @@
   l_passed := :new.$column$ $operator$ $value$ and $value2$;
   if not l_passed
   then
-   l_error_stack := l_error_stack || '$errorMessage$'
+   l_error_stack := l_error_stack || '$errorMessage$';
   end if;
  end if;
 end;

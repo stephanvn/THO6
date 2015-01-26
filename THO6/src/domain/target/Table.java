@@ -6,6 +6,7 @@ public class Table {
 	
 	private int ID;
 	private String name;
+	private String code;
 	private int position;
 	private ArrayList<Column> allColumns;
 	
@@ -28,6 +29,12 @@ public class Table {
 		this.name = name;
 	}
 
+	public String getCode(){
+		if(code == null){
+			code = name.substring(0, Math.min(name.length(), 4)).toUpperCase();
+		}
+		return code;
+	}
 	public int getPosition() {
 		return position;
 	}

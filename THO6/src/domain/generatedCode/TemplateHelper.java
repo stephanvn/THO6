@@ -27,7 +27,7 @@ public class TemplateHelper {
 			e.printStackTrace();
 		}
 		addAttributeToTemplate(defaultTemplate, "brName",
-				theBusinessRule.getName());
+				theBusinessRule.getTriggerName());
 		addAttributeToTemplate(defaultTemplate, "targetTable",
 				theBusinessRule.getTargetTableName());
 		return defaultTemplate.render();
@@ -129,7 +129,7 @@ public class TemplateHelper {
 			e.printStackTrace();
 		}
 		addAttributeToTemplate(interEntityCompareRule, "brName",
-				theBusinessRule.getName());
+				theBusinessRule.getTriggerName());
 		addAttributeToTemplate(interEntityCompareRule, "targetTable",
 				theBusinessRule.getTargetTableName());
 		addAttributeToTemplate(interEntityCompareRule, "table2",
@@ -150,6 +150,8 @@ public class TemplateHelper {
 		addAttributeToTemplate(interEntityCompareRule, "t1column1",
 				theBusinessRule.getAllTables().get(0).getAllColumns().get(0)
 						.getName());
+		addAttributeToTemplate(interEntityCompareRule, "operator",
+				theBusinessRule.getConstrainsFacade().getAllOperators().get(0).getType());
 		addAttributeToTemplate(interEntityCompareRule, "errorMessage",
 				theBusinessRule.getAllErrorMessages().get(0).getMessage());
 		return interEntityCompareRule.render();
