@@ -107,7 +107,6 @@ public class BusinessRuleControl {
 		for(String s : list) {
 			BusinessRule b = searchBusinessRule(s);
 			try {
-				System.out.println(b.getID());
 				b.generateCode();
 				fw.write(b.getTheGeneratedCode().getGeneratedCode());
 				//Replace "oracleTarget" with other database for other target
