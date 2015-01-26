@@ -185,6 +185,26 @@ public class TemplateHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		addAttributeToTemplate(modifyRule, "brName",
+				theBusinessRule.getTriggerName());
+		addAttributeToTemplate(modifyRule, "targetTable",
+				theBusinessRule.getTargetTableName());
+		addAttributeToTemplate(modifyRule, "eventsStringAbb", theBusinessRule
+				.getConstrainsFacade().getEventsStringAbb());
+		addAttributeToTemplate(modifyRule, "table2", theBusinessRule
+				.getAllTables().get(1).getName());
+		addAttributeToTemplate(modifyRule, "t2column1", theBusinessRule
+				.getAllTables().get(1).getAllColumns().get(0).getName());
+		addAttributeToTemplate(modifyRule, "table1", theBusinessRule
+				.getAllTables().get(0).getName());
+		addAttributeToTemplate(modifyRule, "t2column2", theBusinessRule
+				.getAllTables().get(1).getAllColumns().get(1).getName());
+		addAttributeToTemplate(modifyRule, "t1column2", theBusinessRule
+				.getAllTables().get(0).getAllColumns().get(1).getName());
+		addAttributeToTemplate(modifyRule, "operator", theBusinessRule
+				.getConstrainsFacade().getAllOperators().get(0).getType());
+		addAttributeToTemplate(modifyRule, "values", theBusinessRule
+				.getConstrainsFacade().getAllValuesAsString());
 		return modifyRule.render();
 	}
 

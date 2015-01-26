@@ -1,0 +1,32 @@
+create or replace trigger $brName$
+ before delete or insert or update
+ on $targetTable$
+ for each row
+declare
+ l_oper			varchar2(3);
+ l_error_stack		varchar2(4000);
+ l_passed		boolean := true;
+ l_value 		$table2$.$t2column1$%type;
+begin
+ if inserting
+ then
+  l_oper := 'INS';
+ elsif updating
+ then
+  l_oper := 'UPD';
+ elsif deleting
+ then
+  l_oper := 'DEL';
+ end if;
+  if l_oper in ($eventsStringAbb$)
+ then
+  select $table2$.$t2column1$ into l_value
+  from $table1$, $table2$
+  where $table1$.$t1column2$ = $table2$.$t2column2$;
+  l_passed := $table2$.$t2column1$ $operator$ $values$;
+  if not l_passed
+  then
+   l_error_stack := l_error_stack || '$errorMessage$';
+  end if;
+ end if;
+end;
