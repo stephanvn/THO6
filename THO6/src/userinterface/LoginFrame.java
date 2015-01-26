@@ -3,6 +3,8 @@ package userinterface;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,10 +36,12 @@ public class LoginFrame extends JFrame {
 		
 		txtUsername = new MyTextField();
 		txtUsername.setPlaceholder("Username");
+		txtUsername.addKeyListener(onEnter);
 		panel.add(txtUsername, "cell 1 0, grow");
 		
 		txtPassword = new MyPasswordField();
 		txtPassword.setPlaceholder("Password");
+		txtPassword.addKeyListener(onEnter);
 		panel.add(txtPassword, "cell 1 1, grow");
 		
 		btnLogin = new JButton("Login");
@@ -65,6 +69,14 @@ public class LoginFrame extends JFrame {
 			else {
 				JOptionPane.showMessageDialog(null,
 						"Please fill in all fields!");
+			}
+		}
+	};
+	
+	KeyAdapter onEnter = new KeyAdapter() {
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+				btnLogin.doClick();
 			}
 		}
 	};
