@@ -85,8 +85,4 @@ public class ConstraintsFacade {
 	public void addOperator(Operator o) {
 		allOperators.add(o);
 	}
-
-	public Event getEventByID(int ID){
-		return Event.getEventById(ID);
-	}
 }
