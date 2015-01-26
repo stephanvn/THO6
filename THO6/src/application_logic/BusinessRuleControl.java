@@ -18,6 +18,7 @@ public class BusinessRuleControl {
 	private ArrayList<String> allBusinessRuleTypesString = new ArrayList<String>();
 	private DAOFactorySetup DAOFactorySetupRef = DAOFactorySetup.getInstance();
 	private static BusinessRuleControl instance = null;
+	private String username;
 	
 	public static synchronized BusinessRuleControl getInstance(){
 		if (instance == null){
@@ -26,6 +27,14 @@ public class BusinessRuleControl {
 		return instance;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public ArrayList<BusinessRule> getAllBusinessRules() {
 		return allBusinessRules;
 	}
@@ -98,6 +107,7 @@ public class BusinessRuleControl {
 		for(String s : list) {
 			BusinessRule b = searchBusinessRule(s);
 			try {
+				System.out.println(b.getID());
 				b.generateCode();
 				fw.write(b.getTheGeneratedCode().getGeneratedCode());
 				//Replace "oracleTarget" with other database for other target
@@ -113,7 +123,8 @@ public class BusinessRuleControl {
 		}
 	}	
 	
-	public void fillDomainFromDatabase(String username){
+	public void fillDomainFromDatabase(){
+		allBusinessRuleTypesString.clear();
 		//Replace "oracle" with other database, or make it an option on userInterface so user can choose
 		allBusinessRules = DAOFactorySetupRef.getAllBusinessRulesFromDatabase(username);
 		if(allBusinessRules!=null) {

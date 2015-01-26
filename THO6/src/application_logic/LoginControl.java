@@ -19,7 +19,9 @@ public class LoginControl {
 		boolean b = false;		
 		//change oracle for other db type
 		if(DAOFactorySetupRef.selectUser(username, password, "oracle")) {
-			BusinessRuleControl.getInstance().fillDomainFromDatabase(username);
+			BusinessRuleControl brc = BusinessRuleControl.getInstance();
+			brc.setUsername(username);
+			brc.fillDomainFromDatabase();
 			b = true;
 		}
 		return b;
