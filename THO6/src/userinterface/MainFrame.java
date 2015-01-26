@@ -20,6 +20,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,15 +29,17 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import application_logic.BusinessRuleControl;
+import application_logic.LoginControl;
 
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private BusinessRuleControl control;
 	private JComboBox<String> cb1;
-	private JPanel bottomPanel, contentPanel, searchPanel;
+	private JPanel bottomPanel, contentPanel, searchPanel, logoutPanel, topPanel;
 	private JScrollPane scrollPane;
-	private JButton btnGenerate, btnSelectAll;
+	private JButton btnGenerate, btnSelectAll,btnRefresh, btnLogout;
+	private JLabel labUsername;
 	private MyTextField txtSearchBusinessRule;
 	private ArrayList<JCheckBox> checkboxes;
 
@@ -53,12 +56,29 @@ public class MainFrame extends JFrame {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void createGUI() {
-		checkboxes = new ArrayList<JCheckBox>();	
+		checkboxes = new ArrayList<JCheckBox>();
+		
+		topPanel = new JPanel();
+		topPanel.setLayout(new BorderLayout());
+		getContentPane().add(topPanel, BorderLayout.NORTH);
+		
+		logoutPanel = new JPanel();
+		logoutPanel.setBackground(Color.decode("#b20b00"));
+		topPanel.add(logoutPanel, BorderLayout.NORTH);
+		logoutPanel.setLayout(new MigLayout("", "[600px][80px][30px]", "[][2px]"));
+		
+		labUsername = new JLabel("User: "+control.getUsername());
+		labUsername.setForeground(Color.decode("#ffffff"));
+		logoutPanel.add(labUsername, "cell 1 0, grow");
+		
+		btnLogout = new JButton("Logout");
+		logoutPanel.add(btnLogout, "cell 2 0,grow");
+		btnLogout.addActionListener(logoutButton);
 
 		searchPanel = new JPanel();
 		searchPanel.setBackground(Color.decode("#b20b00"));
-		getContentPane().add(searchPanel, BorderLayout.NORTH);
-		searchPanel.setLayout(new MigLayout("", "[241px][][241px]", "[][2px]"));
+		topPanel.add(searchPanel, BorderLayout.SOUTH);
+		searchPanel.setLayout(new MigLayout("", "[300px][][300px]", "[][2px]"));
 
 		txtSearchBusinessRule = new MyTextField();
 		txtSearchBusinessRule.setBorder(BorderFactory.createCompoundBorder(
@@ -98,6 +118,11 @@ public class MainFrame extends JFrame {
 		btnSelectAll.setBackground(Color.decode("#e3e3e3"));
 		bottomPanel.add(btnSelectAll, "cell 1 0,alignx center,aligny center");
 		btnSelectAll.addActionListener(selectAllButton);
+		
+		btnRefresh = new JButton("Refresh");
+		btnRefresh.setBackground(Color.decode("#e3e3e3"));
+		bottomPanel.add(btnRefresh, "cell 1 0,alignx center,aligny center");
+		btnRefresh.addActionListener(refreshButton);
 
 		setSize(540, 300);
 		pack();
@@ -229,12 +254,28 @@ public class MainFrame extends JFrame {
 						e1.printStackTrace();
 					}
 					JOptionPane.showMessageDialog(null, list.size()
-							+ " Business Rules generated");
+							+ " Business Rules generated");					
+					dispose();
+					control.fillDomainFromDatabase();
 				}
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"No Business Rules selected");
 			}
+		}
+	};
+	
+	ActionListener refreshButton = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			control.fillDomainFromDatabase();
+		}
+	};
+	
+	ActionListener logoutButton = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			new LoginControl();
 		}
 	};
 
