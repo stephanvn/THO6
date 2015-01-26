@@ -59,7 +59,7 @@ public class GeneratedCode {
 
 		if (theBusinessRule.getType().getName().equals("Modify Rule")) {
 			typeSpecificCode = th.getModifyRuleTemplate(theBusinessRule);
-			generatedCode = defaultCode + typeSpecificCode;
+			generatedCode = typeSpecificCode;
 		}
 		if (typeSpecificCode == null) {
 			generatedCode = defaultCode;
