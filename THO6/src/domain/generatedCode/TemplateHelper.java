@@ -202,10 +202,18 @@ public class TemplateHelper {
 				.getAllTables().get(1).getAllColumns().get(1).getName());
 		addAttributeToTemplate(modifyRule, "t1column1", theBusinessRule
 				.getAllTables().get(0).getAllColumns().get(0).getName());
-		addAttributeToTemplate(modifyRule, "operator", theBusinessRule
-				.getConstrainsFacade().getAllOperators().get(0).getType());
+		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0)
+				.getID() == 8) {
+			addAttributeToTemplate(modifyRule, "operator", "IN");
+		}
+		if (theBusinessRule.getConstrainsFacade().getAllOperators().get(0)
+				.getID() == 9) {
+			addAttributeToTemplate(modifyRule, "operator", "NOT IN");
+		}
 		addAttributeToTemplate(modifyRule, "values", theBusinessRule
 				.getConstrainsFacade().getAllValuesAsString());
+		addAttributeToTemplate(modifyRule, "errorMessage", theBusinessRule
+				.getAllErrorMessages().get(0).getMessage());
 		return modifyRule.render();
 	}
 
